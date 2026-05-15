@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
 import {
-  registrationSchemaWithUTM,
+  registrationSchema,
   type RegistrationInput,
   INDUSTRIES,
   COMPANY_SIZES,
@@ -15,17 +15,6 @@ import {
   REFERRAL_SOURCES,
   PERSONAL_EMAIL_DOMAINS,
 } from "@/lib/registration-schema";
-
-// Form submit type bao gồm cả UTM params
-export interface FormSubmitData extends RegistrationInput {
-  utm_source?: string | null;
-  utm_medium?: string | null;
-  utm_campaign?: string | null;
-  utm_term?: string | null;
-  utm_content?: string | null;
-  referrer?: string | null;
-  landing_page?: string | null;
-}
 
 // SECTION 9 — Form đăng ký
 // Client component (RHF cần state). Validate cùng schema Zod với server.
@@ -41,37 +30,17 @@ export default function RegistrationForm() {
     register,
     handleSubmit,
     watch,
-    setValue,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<FormSubmitData>({
-    resolver: zodResolver(registrationSchemaWithUTM),
+  } = useForm<RegistrationInput>({
+    resolver: zodResolver(registrationSchema),
     mode: "onTouched",
     defaultValues: {
       consent: false,
       referralSource: "",
-      website: "",
-      utm_source: null,
-      utm_medium: null,
-      utm_campaign: null,
-      utm_term: null,
-      utm_content: null,
-      referrer: null,
-      landing_page: null,
+      website: "", // honeypot
     },
   });
-
-  // Capture UTM params on mount (client-side only)
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    setValue("utm_source", params.get("utm_source") || null);
-    setValue("utm_medium", params.get("utm_medium") || null);
-    setValue("utm_campaign", params.get("utm_campaign") || null);
-    setValue("utm_term", params.get("utm_term") || null);
-    setValue("utm_content", params.get("utm_content") || null);
-    setValue("referrer", document.referrer || null);
-    setValue("landing_page", window.location.href);
-  }, [setValue]);
 
   // Cảnh báo nhẹ khi nhập email cá nhân — không reject
   const emailValue = watch("email") || "";
@@ -82,14 +51,18 @@ export default function RegistrationForm() {
     return PERSONAL_EMAIL_DOMAINS.includes(domain);
   })();
 
-  async function onSubmit(values: FormSubmitData) {
+  async function onSubmit(values: RegistrationInput) {
     setSubmitState({ status: "submitting" });
     try {
-      const res = await fetch("/list-100-doanh-nghiep-2026/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
-      });
+      // Endpoint trong route folder → match đường dẫn proxy joywork.vn
+      const res = await fetch(
+        "/list-100-doanh-nghiep-2026/api/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        }
+      );
       const json = await res.json();
       if (!res.ok || !json.ok) {
         throw new Error(
@@ -193,15 +166,6 @@ export default function RegistrationForm() {
                 />
               </label>
             </div>
-
-            {/* UTM hidden fields — auto-captured on page load */}
-            <input type="hidden" {...register("utm_source")} />
-            <input type="hidden" {...register("utm_medium")} />
-            <input type="hidden" {...register("utm_campaign")} />
-            <input type="hidden" {...register("utm_term")} />
-            <input type="hidden" {...register("utm_content")} />
-            <input type="hidden" {...register("referrer")} />
-            <input type="hidden" {...register("landing_page")} />
 
             <div className="grid gap-5 sm:grid-cols-2">
               {/* 1. Tên doanh nghiệp */}

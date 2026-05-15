@@ -6,19 +6,6 @@ import {
 } from "@/lib/registration-schema";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
-// UTM params interface
-interface UTMParams {
-  utm_source: string | null;
-  utm_medium: string | null;
-  utm_campaign: string | null;
-  utm_term: string | null;
-  utm_content: string | null;
-  referrer: string | null;
-  landing_page: string | null;
-}
-
-type RegistrationData = RegistrationInput & Partial<UTMParams>;
-
 // Force Node runtime (Resend SDK cần Node.js runtime, không chạy được trên edge)
 export const runtime = "nodejs";
 
@@ -60,10 +47,7 @@ export async function POST(request: Request) {
   }
 
   // 3. Validate bằng Zod (cùng schema với client)
-  // Tách UTM params trước khi validate
-  const { utm_source, utm_medium, utm_campaign, utm_term, utm_content, referrer, landing_page, ...registrationData } = raw as RegistrationData;
-
-  const parsed = registrationSchema.safeParse(registrationData);
+  const parsed = registrationSchema.safeParse(raw);
   if (!parsed.success) {
     return NextResponse.json(
       {
@@ -82,16 +66,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ ok: true });
   }
 
-  const data: RegistrationData = {
-    ...parsed.data,
-    utm_source,
-    utm_medium,
-    utm_campaign,
-    utm_term,
-    utm_content,
-    referrer,
-    landing_page,
-  };
+  const data = parsed.data;
 
   // 5. Lưu Google Sheet + gửi email — song song để giảm độ trễ
   const [sheetResult, userEmailResult, teamEmailResult] =
@@ -134,7 +109,7 @@ export async function POST(request: Request) {
 }
 
 // --- Google Sheet via Apps Script webhook ---
-async function saveToGoogleSheet(data: RegistrationData) {
+async function saveToGoogleSheet(data: RegistrationInput) {
   const url = process.env.GOOGLE_SHEET_WEBHOOK_URL;
   if (!url) {
     console.warn(
@@ -145,7 +120,6 @@ async function saveToGoogleSheet(data: RegistrationData) {
 
   const payload = {
     timestamp: new Date().toISOString(),
-    // Registration fields
     companyName: data.companyName,
     industry: data.industry,
     companySize: data.companySize,
@@ -156,20 +130,13 @@ async function saveToGoogleSheet(data: RegistrationData) {
     phone: data.phone,
     readiness: data.readiness,
     referralSource: data.referralSource || "",
-    // UTM tracking
-    utm_source: data.utm_source || "",
-    utm_medium: data.utm_medium || "",
-    utm_campaign: data.utm_campaign || "",
-    utm_term: data.utm_term || "",
-    utm_content: data.utm_content || "",
-    referrer: data.referrer || "",
-    landing_page: data.landing_page || "",
   };
 
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
+    // Apps Script thường redirect → cho phép follow
     redirect: "follow",
   });
 
@@ -180,7 +147,7 @@ async function saveToGoogleSheet(data: RegistrationData) {
 }
 
 // --- Resend: email xác nhận cho user ---
-async function sendConfirmationEmail(data: RegistrationData) {
+async function sendConfirmationEmail(data: RegistrationInput) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL;
   if (!apiKey || !from) {
@@ -208,7 +175,7 @@ async function sendConfirmationEmail(data: RegistrationData) {
 }
 
 // --- Resend: email notify team nội bộ ---
-async function sendTeamNotification(data: RegistrationData) {
+async function sendTeamNotification(data: RegistrationInput) {
   const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL;
   const teamEmail =
@@ -238,7 +205,7 @@ async function sendTeamNotification(data: RegistrationData) {
 }
 
 // --- Email templates HTML ---
-function renderUserConfirmationEmail(data: RegistrationData) {
+function renderUserConfirmationEmail(data: RegistrationInput) {
   return `<!DOCTYPE html>
 <html lang="vi">
 <body style="margin:0;padding:0;background:#f5f5f5;font-family:Inter,Arial,sans-serif;color:#0B1230;">
@@ -289,20 +256,7 @@ function renderUserConfirmationEmail(data: RegistrationData) {
 </html>`;
 }
 
-function renderTeamNotificationEmail(data: RegistrationData) {
-  // Build UTM info string
-  const utmInfo = [
-    data.utm_source && `Source: ${data.utm_source}`,
-    data.utm_medium && `Medium: ${data.utm_medium}`,
-    data.utm_campaign && `Campaign: ${data.utm_campaign}`,
-    data.utm_term && `Term: ${data.utm_term}`,
-    data.utm_content && `Content: ${data.utm_content}`,
-    data.referrer && `Referrer: ${data.referrer}`,
-    data.landing_page && `Landing: ${data.landing_page}`,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
+function renderTeamNotificationEmail(data: RegistrationInput) {
   return `<!DOCTYPE html>
 <html lang="vi">
 <body style="margin:0;padding:0;background:#fff;font-family:Inter,Arial,sans-serif;color:#0B1230;">
@@ -324,12 +278,6 @@ function renderTeamNotificationEmail(data: RegistrationData) {
         ${renderRow("Sẵn sàng khảo sát", data.readiness)}
         ${renderRow("Biết qua kênh", data.referralSource || "—")}
       </table>
-      ${utmInfo ? `
-      <div style="margin-top:20px;padding:16px;background:#f5f5f5;border-radius:8px;">
-        <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:#0B1230;">📊 Thông tin tracking</p>
-        <pre style="margin:0;font-size:12px;color:#3D4978;white-space:pre-wrap;word-break:break-all;">${escapeHtml(utmInfo)}</pre>
-      </div>
-      ` : ""}
     </td></tr>
   </table>
 </body>
