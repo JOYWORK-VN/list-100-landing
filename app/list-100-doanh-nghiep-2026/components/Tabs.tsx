@@ -63,7 +63,7 @@ export default function Tabs({ tabs }: { tabs: Tab[] }) {
           <div
             role="tablist"
             aria-label="Nội dung chương trình"
-            className="flex gap-1 overflow-x-auto sm:gap-2"
+            className="flex justify-center gap-1 overflow-x-auto sm:gap-2"
           >
             {tabs.map((tab) => {
               const isActive = tab.id === active?.id;
