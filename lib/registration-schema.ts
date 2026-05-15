@@ -115,4 +115,16 @@ export const registrationSchema = z.object({
   website: z.string().optional(),
 });
 
+// Extended schema for form submission including UTM params
+export const registrationSchemaWithUTM = registrationSchema.extend({
+  utm_source: z.string().nullable().optional(),
+  utm_medium: z.string().nullable().optional(),
+  utm_campaign: z.string().nullable().optional(),
+  utm_term: z.string().nullable().optional(),
+  utm_content: z.string().nullable().optional(),
+  referrer: z.string().nullable().optional(),
+  landing_page: z.string().nullable().optional(),
+});
+
 export type RegistrationInput = z.infer<typeof registrationSchema>;
+export type RegistrationInputWithUTM = z.infer<typeof registrationSchemaWithUTM>;
