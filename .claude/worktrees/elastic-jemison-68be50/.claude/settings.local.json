@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s http://localhost:3000/list-100-doanh-nghiep-2026 --max-time 15)",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Read(//Users/thuquynh/Documents/JOYWORK/List 100/list-100-landing/**)",
+      "Bash(npx tsc *)",
+      "Read(//Users/thuquynh/Downloads/**)",
+      "Read(//private/tmp/**)",
+      "Bash(rm -rf cau-hoi-unpack)",
+      "Bash(python3 \"/Users/thuquynh/Library/Application Support/Claude/local-agent-mode-sessions/skills-plugin/97b0de97-74a0-48ef-adfb-09c83c93e96f/ebe69930-1a7e-43f2-848b-ed59bb04f29f/skills/docx/scripts/office/unpack.py\" \"/Users/thuquynh/Downloads/cau-hoi-khao-sat.docx\" /tmp/cau-hoi-unpack)",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

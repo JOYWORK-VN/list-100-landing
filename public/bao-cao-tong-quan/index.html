@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JOYWORK · Báo cáo Workplace Insight 2026 — 500 Doanh nghiệp</title>
+<style>
+:root {
+  --primary: #BD026B;
+  --primary-dark: #8A014E;
+  --primary-light: #FDE0EE;
+  --secondary: #1347CD;
+  --accent: #00BFA5;
+  --bg: #FAFBFC;
+  --surface: #FFFFFF;
+  --text: #1A1F36;
+  --text-soft: #4A5060;
+  --text-muted: #8B92A5;
+  --border: #E8EBF0;
+  --excellent: #00C853;
+  --good: #29B6F6;
+  --moderate: #FFB300;
+  --warning: #FF5252;
+  --shadow-sm: 0 2px 8px rgba(15,23,42,0.04);
+  --shadow-md: 0 8px 24px rgba(15,23,42,0.06);
+  --shadow-lg: 0 16px 48px rgba(15,23,42,0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', 'Helvetica Neue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ============ COVER ============ */
+.cover {
+  background: linear-gradient(135deg, #1347CD 0%, #BD026B 100%);
+  color: white;
+  padding: 80px 0 100px;
+  position: relative;
+  overflow: hidden;
+}
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -30%; left: -10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,191,165,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.cover-content { position: relative; z-index: 2; }
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 18px;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  margin-bottom: 28px;
+}
+.brand-dot {
+  width: 8px; height: 8px;
+  background: #00E676;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #00E676;
+}
+.cover h1 {
+  font-size: 50px;
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -1.3px;
+  margin-bottom: 16px;
+}
+.cover .subtitle {
+  font-size: 20px;
+  opacity: 0.92;
+  font-weight: 400;
+  margin-bottom: 56px;
+  max-width: 760px;
+}
+
+.headline-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 48px;
+}
+.headline-stat .num {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.headline-stat .lbl {
+  font-size: 14px;
+  opacity: 0.85;
+  letter-spacing: 0.5px;
+}
+
+.cover-foot {
+  padding-top: 28px;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+/* ============ MAIN ============ */
+main { padding: 64px 0; }
+.section { margin-bottom: 80px; }
+.section-header { margin-bottom: 32px; }
+.section-tag {
+  display: inline-block;
+  padding: 4px 12px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+.section-title {
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+.section-desc { color: var(--text-soft); font-size: 16px; max-width: 760px; }
+
+/* ============ NARRATIVE ============ */
+.prose {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 36px 44px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.prose p {
+  font-size: 15.5px;
+  color: var(--text-soft);
+  margin-bottom: 16px;
+  line-height: 1.75;
+}
+.prose p:last-child { margin-bottom: 0; }
+.prose .pull {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 24px 0;
+  padding: 18px 22px;
+  border-left: 4px solid var(--primary);
+  background: var(--primary-light);
+  border-radius: 0 10px 10px 0;
+}
+
+/* ============ METHODOLOGY ============ */
+.method-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 28px;
+}
+.method-step {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 22px 20px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+}
+.method-step .num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px; height: 32px;
+  background: var(--secondary);
+  color: white;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+.method-step h4 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.method-step p {
+  font-size: 13px;
+  color: var(--text-soft);
+  line-height: 1.5;
+}
+
+.criteria-table {
+  background: var(--surface);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 28px;
+}
+.criteria-table .row {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.criteria-table .row:last-child { border-bottom: none; }
+.criteria-table .row.head {
+  background: #F5F7FA;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  padding: 12px 24px;
+}
+.criteria-table .name { font-weight: 700; font-size: 15px; }
+.criteria-table .scope { font-size: 14px; color: var(--text-soft); line-height: 1.55; }
+
+.tenure-bar {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 22px 26px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.tenure-bar h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.tenure-bar .sub {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+.tenure-stack {
+  display: flex;
+  height: 36px;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+.tenure-stack > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+}
+.tenure-legend {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  font-size: 12px;
+}
+.tenure-legend .item { display: flex; align-items: center; gap: 6px; }
+.tenure-legend .dot { width: 10px; height: 10px; border-radius: 3px; }
+
+/* ============ KPI ============ */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.kpi-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 28px 24px;
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--border);
+}
+.kpi-card.highlight {
+  background: linear-gradient(135deg, #BD026B 0%, #8A014E 100%);
+  color: white;
+  border: none;
+}
+.kpi-card.highlight .kpi-label,
+.kpi-card.highlight .kpi-note { color: rgba(255,255,255,0.85); }
+.kpi-label {
+  font-size: 11px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.kpi-value {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1.2px;
+  margin-bottom: 8px;
+}
+.kpi-suffix { font-size: 16px; font-weight: 600; opacity: 0.7; }
+.kpi-note {
+  font-size: 13px;
+  color: var(--text-soft);
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 14px;
+}
+.kpi-card.highlight .kpi-note { border-top-color: rgba(255,255,255,0.25); }
+
+.callout-banner {
+  background: linear-gradient(135deg, #1347CD 0%, #1F5CDF 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 32px 36px;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 32px;
+  align-items: center;
+}
+.callout-big {
+  font-size: 56px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+.callout-big .of { font-size: 24px; opacity: 0.7; font-weight: 600; }
+.callout-big .pct { display: block; font-size: 18px; opacity: 0.8; margin-top: 6px; font-weight: 600; }
+.callout-text h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.callout-text p {
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: 0.92;
+}
+
+/* ============ CATEGORY RANKING ============ */
+.cat-list { display: flex; flex-direction: column; gap: 14px; }
+.cat-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 22px 26px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+.cat-rank {
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -1px;
+  text-align: center;
+}
+.cat-rank .lb { display: block; font-size: 10px; letter-spacing: 1px; color: var(--text-muted); margin-top: 2px; font-weight: 700; }
+.cat-mid .name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+.cat-mid .desc { font-size: 13px; color: var(--text-muted); margin-bottom: 12px; }
+.cat-bar-wrap {
+  height: 8px;
+  background: var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.cat-bar-fill { height: 100%; border-radius: 100px; }
+.cat-right { text-align: right; flex-shrink: 0; }
+.cat-score { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+.cat-score-max { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+.cat-level {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: white;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+
+.bg-excellent { background: var(--excellent); }
+.bg-good { background: var(--good); }
+.bg-moderate { background: var(--moderate); }
+.bg-warning { background: var(--warning); }
+
+/* ============ TOP/BOTTOM Q ============ */
+.qq-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.qq-block {
+  background: var(--surface);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.qq-block .head {
+  padding: 16px 22px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.qq-block.top .head { background: #E8F5E9; color: #1B5E20; }
+.qq-block.bot .head { background: #FFEBEE; color: #B71C1C; }
+.qq-row {
+  display: grid;
+  grid-template-columns: 50px 1fr auto;
+  gap: 14px;
+  padding: 14px 22px;
+  border-top: 1px solid var(--border);
+  align-items: center;
+}
+.qq-row .code {
+  font-family: 'SF Mono', Menlo, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.qq-row .qtxt { font-size: 13.5px; line-height: 1.45; }
+.qq-row .qtxt .grp {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 3px;
+  letter-spacing: 0.3px;
+}
+.qq-row .sc {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.qq-block.top .sc { color: var(--excellent); }
+.qq-block.bot .sc { color: var(--warning); }
+.qq-row .sc-max { font-size: 12px; color: var(--text-muted); font-weight: 500; }
+
+/* ============ RETENTION ============ */
+.retention-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.r-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 24px 22px;
+  text-align: center;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.r-card.pos { background: linear-gradient(135deg, #00C853 0%, #00897B 100%); color: white; border: none; }
+.r-card.neu { background: linear-gradient(135deg, #FFB300 0%, #FF8F00 100%); color: white; border: none; }
+.r-card.neg { background: linear-gradient(135deg, #FF5252 0%, #C62828 100%); color: white; border: none; }
+.r-lbl {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  font-weight: 700;
+  opacity: 0.9;
+  margin-bottom: 8px;
+}
+.r-val {
+  font-size: 44px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.r-sub { font-size: 12px; opacity: 0.85; }
+
+.retention-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  align-items: stretch;
+}
+.dist-box {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 24px 26px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+.dist-box h3 {
+  font-size: 15px;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+.dist-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+.dist-label { font-size: 13px; min-width: 130px; }
+.dist-bar-wrap { flex: 1; height: 22px; background: var(--bg); border-radius: 6px; overflow: hidden; }
+.dist-bar-fill { height: 100%; display: flex; align-items: center; padding-left: 10px; color: white; font-size: 11.5px; font-weight: 700; }
+
+.attention-box {
+  background: linear-gradient(135deg, #FFF3E0 0%, #FDE0EE 100%);
+  border-radius: 14px;
+  padding: 24px 26px;
+  border: 1px solid #F5A8C8;
+}
+.attention-box .label {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #E65100;
+  margin-bottom: 8px;
+}
+.attention-box h3 {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #BF360C;
+}
+.attention-box p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: #5D2F0E;
+}
+.attention-box .big {
+  display: inline-block;
+  font-size: 28px;
+  font-weight: 800;
+  color: #BF360C;
+  letter-spacing: -0.5px;
+}
+
+/* ============ FINDINGS ============ */
+.finding-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 26px 30px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+.finding-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  color: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 800;
+  margin-right: 14px;
+  vertical-align: middle;
+}
+.finding-title {
+  font-size: 19px;
+  font-weight: 700;
+  display: inline;
+  vertical-align: middle;
+}
+.finding-body {
+  margin-top: 14px;
+  color: var(--text-soft);
+  font-size: 14.5px;
+  line-height: 1.7;
+}
+.finding-body strong { color: var(--text); }
+
+/* ============ JOYWORK PERSPECTIVE ============ */
+.persp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.persp-card {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 24px 26px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  border-top: 4px solid var(--primary);
+}
+.persp-card.b1 { border-top-color: var(--secondary); }
+.persp-card.b2 { border-top-color: var(--accent); }
+.persp-card.b3 { border-top-color: var(--primary); }
+.persp-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.persp-card.b1 .persp-tag { background: rgba(19,71,205,0.1); color: var(--secondary); }
+.persp-card.b2 .persp-tag { background: rgba(0,191,165,0.12); color: #00796B; }
+.persp-card.b3 .persp-tag { background: var(--primary-light); color: var(--primary-dark); }
+.persp-card h3 {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.persp-card p {
+  font-size: 13.5px;
+  color: var(--text-soft);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+.persp-card p:last-child { margin-bottom: 0; }
+
+.commit-box {
+  background: linear-gradient(135deg, #1347CD 0%, #BD026B 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 36px 40px;
+  text-align: center;
+}
+.commit-box .commit-tag {
+  display: inline-block;
+  padding: 4px 14px;
+  background: rgba(255,255,255,0.18);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  margin-bottom: 16px;
+}
+.commit-box h3 {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 14px;
+  letter-spacing: -0.3px;
+}
+.commit-box p {
+  font-size: 15px;
+  line-height: 1.65;
+  opacity: 0.95;
+  max-width: 720px;
+  margin: 0 auto 18px;
+}
+.commit-roadmap {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  max-width: 580px;
+  margin: 18px auto 0;
+}
+.commit-roadmap div {
+  background: rgba(255,255,255,0.12);
+  border-radius: 10px;
+  padding: 14px 12px;
+  font-size: 13px;
+}
+.commit-roadmap div strong { display: block; font-size: 22px; font-weight: 800; margin-bottom: 2px; }
+
+/* ============ FOOTER ============ */
+footer {
+  background: #1A1F36;
+  color: rgba(255,255,255,0.7);
+  padding: 48px 0;
+  text-align: center;
+  font-size: 13px;
+}
+footer .ft-brand {
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 6px;
+  letter-spacing: 1px;
+}
+footer .ft-tag { font-size: 13px; opacity: 0.8; margin-bottom: 12px; }
+footer .ft-line { margin: 4px 0; font-size: 12px; }
+
+/* ============ LOGO ============ */
+.logo-img { display: block; height: auto; }
+.logo-topnav { height: 38px; }
+.logo-footer { height: 56px; margin: 0 auto 10px; }
+
+/* ============ FAB DOWNLOAD ============ */
+.fab-download {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #1347CD 0%, #BD026B 100%);
+  color: white;
+  border: none;
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  font-family: inherit;
+  box-shadow: 0 10px 28px rgba(189,2,107,0.35), 0 4px 14px rgba(19,71,205,0.28);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.fab-download:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(189,2,107,0.45), 0 6px 18px rgba(19,71,205,0.38); }
+.fab-download:active { transform: translateY(0); }
+.fab-download svg { width: 18px; height: 18px; }
+.fab-download .fab-label { white-space: nowrap; }
+@media (max-width: 700px) {
+  .fab-download { bottom: 18px; right: 18px; padding: 12px 18px; font-size: 13px; }
+}
+
+/* ============ TOPBAR ============ */
+.topnav {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+}
+.topnav .row { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.topnav .logo { font-weight: 800; font-size: 16px; letter-spacing: 1px; color: var(--secondary); }
+.topnav .logo .accent { color: var(--primary); }
+.topnav .badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  font-size: 12px;
+  color: var(--text-soft);
+}
+.topnav .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--excellent); box-shadow: 0 0 8px rgba(0,200,83,0.5); }
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  .cover h1 { font-size: 34px; }
+  .headline-stats { grid-template-columns: 1fr; gap: 18px; }
+  .headline-stat .num { font-size: 42px; }
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .method-steps { grid-template-columns: repeat(2, 1fr); }
+  .qq-grid { grid-template-columns: 1fr; }
+  .retention-bottom { grid-template-columns: 1fr; }
+  .retention-summary { grid-template-columns: 1fr; }
+  .persp-grid { grid-template-columns: 1fr; }
+  .callout-banner { grid-template-columns: 1fr; gap: 16px; }
+  .cat-card { grid-template-columns: 50px 1fr; }
+  .cat-card .cat-right { grid-column: 2; text-align: left; }
+  .criteria-table .row { grid-template-columns: 1fr; gap: 6px; }
+}
+
+/* ============ PRINT ============ */
+@page { margin: 16mm 14mm; size: letter; }
+@page :first { margin: 0; }
+@media print {
+  .topnav, .fab-download { display: none !important; }
+  html, body { margin: 0; padding: 0; background: white; }
+  .container { padding: 0; max-width: none; }
+  .cover {
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    page-break-after: always;
+    box-sizing: border-box;
+  }
+  .cover .container { padding: 0 18mm; max-width: none; }
+  .cover .cover-content { width: 100%; padding: 50px 0; }
+  main { padding: 6px 0 0; }
+  .section { break-inside: avoid; margin-bottom: 32px; }
+  .section:last-of-type { margin-bottom: 18px; page-break-after: avoid; }
+  .section-header { margin-bottom: 22px; }
+  .section-title { font-size: 26px; }
+  .kpi-card, .cat-card, .finding-card, .method-step, .qq-block, .r-card, .dist-box, .persp-card, .prose, .criteria-table, .tenure-bar, .callout-banner, .attention-box, .commit-box {
+    box-shadow: none; break-inside: avoid;
+  }
+  footer {
+    padding: 18px 0;
+    page-break-before: avoid;
+    margin-left: -14mm;
+    margin-right: -14mm;
+    margin-bottom: -16mm;
+  }
+  footer .container { padding: 0 18mm; }
+  footer .ft-brand { font-size: 18px; }
+  footer .ft-line { font-size: 11px; }
+}
+</style>
+</head>
+<body>
+
+<!-- Topnav + FAB đã được gỡ — báo cáo nhúng trong tab "Báo cáo tổng quan" của app,
+     không cần nav riêng và download button được render ngoài iframe. -->
+
+<!-- Cover đã được gỡ — báo cáo nhúng trong tab "Báo cáo tổng quan" của app,
+     header + nút tải PDF đã được render bên ngoài iframe. -->
+
+<main>
+<div class="container">
+
+<!-- ============ LỜI MỞ ĐẦU ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">LỜI MỞ ĐẦU</div>
+    <h2 class="section-title">Vẽ lại bản đồ thật của thị trường lao động</h2>
+  </div>
+  <div class="prose">
+    <p>Việt Nam đang ở thời điểm mà chuyện môi trường làm việc không còn là vấn đề riêng của HR. Đó là vấn đề của doanh nghiệp muốn giữ chân nhân tài, của ứng viên muốn chọn đúng nơi để gắn bó, và của cả thị trường lao động đang chuyển dịch nhanh hơn bao giờ hết.</p>
+    <p>Tuy vậy, trong nhiều năm qua, hiểu biết của xã hội về môi trường làm việc tại các doanh nghiệp Việt Nam phần lớn dựa trên ba nguồn: tự công bố của doanh nghiệp, lời truyền miệng giữa người đi làm, và một vài bảng xếp hạng vốn không tiết lộ phương pháp đánh giá rõ ràng. Cả ba nguồn đều có giới hạn của riêng mình.</p>
+    <p>Báo cáo này là nỗ lực đầu tiên của JOYWORK để đưa ra một bức tranh khác — bức tranh được vẽ từ tiếng nói của chính nhân viên đang làm việc tại các doanh nghiệp đó. Trong khuôn khổ chương trình List 100 năm 2026, chúng tôi đã khảo sát ẩn danh <strong>28.473 nhân viên tại 500 doanh nghiệp Việt Nam</strong>. Tất cả câu trả lời đều được gửi trực tiếp đến từng nhân viên qua email cá nhân, không qua HR, không qua quản lý.</p>
+    <p class="pull">Báo cáo này không phán xét doanh nghiệp. Báo cáo này lắng nghe nhân viên — và mong rằng tiếng nói đó được lan tỏa đến những người có khả năng thay đổi môi trường làm việc tại Việt Nam.</p>
+  </div>
+</section>
+
+<!-- ============ PHẦN 1: PHƯƠNG PHÁP ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">PHẦN 1</div>
+    <h2 class="section-title">Phương pháp khảo sát</h2>
+    <p class="section-desc">Quy trình 4 bước đảm bảo tính ẩn danh và độ tin cậy của dữ liệu thu thập.</p>
+  </div>
+
+  <div class="method-steps">
+    <div class="method-step">
+      <div class="num">1</div>
+      <h4>Mời doanh nghiệp tham gia</h4>
+      <p>Doanh nghiệp đồng ý sẽ gửi danh sách email cá nhân của toàn bộ nhân viên (không kèm tên) cho JOYWORK.</p>
+    </div>
+    <div class="method-step">
+      <div class="num">2</div>
+      <h4>Gửi khảo sát ẩn danh</h4>
+      <p>Khảo sát qua email cá nhân, không yêu cầu tên, không lưu IP, HR/quản lý không xem được phản hồi.</p>
+    </div>
+    <div class="method-step">
+      <div class="num">3</div>
+      <h4>Thu thập &amp; làm sạch</h4>
+      <p>Loại bỏ phản hồi không hợp lệ. Chỉ doanh nghiệp có ≥80% nhân viên trả lời mới được đưa vào báo cáo.</p>
+    </div>
+    <div class="method-step">
+      <div class="num">4</div>
+      <h4>Tổng hợp ẩn danh</h4>
+      <p>Báo cáo tổng hợp ở cấp độ chung 500 doanh nghiệp. Không có doanh nghiệp nào được nêu tên hay nhận diện.</p>
+    </div>
+  </div>
+
+  <div class="criteria-table">
+    <div class="row head">
+      <div>Nhóm tiêu chí</div>
+      <div>Phạm vi đánh giá</div>
+    </div>
+    <div class="row">
+      <div class="name">Rõ ràng &amp; Minh bạch</div>
+      <div class="scope">Vai trò rõ ràng, kỳ vọng kết quả công việc minh bạch, phản hồi cụ thể từ quản lý, thông báo thay đổi quan trọng kịp thời.</div>
+    </div>
+    <div class="row">
+      <div class="name">Phát triển con người</div>
+      <div class="scope">Cơ hội học và phát triển kỹ năng, học hỏi từ quản lý, được giao thử thách phù hợp, lộ trình phát triển nghề nghiệp.</div>
+    </div>
+    <div class="row">
+      <div class="name">Văn hóa &amp; Quản trị</div>
+      <div class="scope">Quản lý lắng nghe, môi trường không có bắt nạt, đồng nghiệp hỗ trợ nhau, lãnh đạo nhất quán giữa lời nói và việc làm.</div>
+    </div>
+    <div class="row">
+      <div class="name">Tính bền vững</div>
+      <div class="scope">Khối lượng công việc hợp lý, deadline thực tế, làm thêm giờ là ngoại lệ, có thời gian cho cuộc sống ngoài công việc.</div>
+    </div>
+    <div class="row">
+      <div class="name">Phúc lợi &amp; Công bằng</div>
+      <div class="scope">Lương tương xứng đóng góp, chính sách lương thưởng minh bạch, công ty giữ cam kết, đối xử công bằng giữa các nhân viên.</div>
+    </div>
+  </div>
+
+  <div class="tenure-bar">
+    <h4>Phân bố thâm niên nhân viên trả lời</h4>
+    <div class="sub">Đa dạng từ người mới đi làm đến người có thâm niên trên 5 năm</div>
+    <div class="tenure-stack">
+      <div style="width:18%; background:#7E57C2;">18%</div>
+      <div style="width:22%; background:#5C6BC0;">22%</div>
+      <div style="width:28%; background:#42A5F5;">28%</div>
+      <div style="width:24%; background:#26A69A;">24%</div>
+      <div style="width:8%; background:#66BB6A;">8%</div>
+    </div>
+    <div class="tenure-legend">
+      <div class="item"><span class="dot" style="background:#7E57C2"></span>Dưới 6 tháng</div>
+      <div class="item"><span class="dot" style="background:#5C6BC0"></span>6-12 tháng</div>
+      <div class="item"><span class="dot" style="background:#42A5F5"></span>1-2 năm</div>
+      <div class="item"><span class="dot" style="background:#26A69A"></span>2-5 năm</div>
+      <div class="item"><span class="dot" style="background:#66BB6A"></span>Trên 5 năm</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHẦN 2: SỐ LIỆU TỔNG QUAN ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">PHẦN 2</div>
+    <h2 class="section-title">Số liệu tổng quan</h2>
+    <p class="section-desc">Bốn con số quan trọng nhất phản ánh quy mô và kết quả chung của khảo sát.</p>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">Quy mô khảo sát</div>
+      <div class="kpi-value">500</div>
+      <div class="kpi-note">Đa ngành, đa quy mô, từ 20 nhân sự trở lên</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Phản hồi hợp lệ</div>
+      <div class="kpi-value">28.473</div>
+      <div class="kpi-note">Nhân viên đã trả lời đầy đủ và hợp lệ</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">Tỷ lệ hoàn thành TB</div>
+      <div class="kpi-value">84<span class="kpi-suffix">%</span></div>
+      <div class="kpi-note">Vượt ngưỡng 80% cho mẫu hợp lệ</div>
+    </div>
+    <div class="kpi-card highlight">
+      <div class="kpi-label">Điểm trung bình 500 DN</div>
+      <div class="kpi-value">71.4<span class="kpi-suffix"> / 100</span></div>
+      <div class="kpi-note">Vừa vượt ngưỡng 70 — phản ánh trung bình thị trường</div>
+    </div>
+  </div>
+
+  <div class="callout-banner">
+    <div class="callout-big">
+      132<span class="of"> / 500</span>
+      <span class="pct">26.4% doanh nghiệp đạt chuẩn</span>
+    </div>
+    <div class="callout-text">
+      <h3>Vào List 100 năm 2026</h3>
+      <p>Đạt chuẩn nghĩa là tổng điểm khảo sát ≥ 70/100, không có nhóm tiêu chí nào dưới 10/20 điểm, và có ít nhất 80% nhân viên hoàn thành khảo sát hợp lệ. JOYWORK đã chọn 100 doanh nghiệp tiêu biểu nhất từ 132 doanh nghiệp đạt chuẩn để công bố.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHẦN 3: 5 NHÓM ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">PHẦN 3</div>
+    <h2 class="section-title">Kết quả theo 5 nhóm tiêu chí</h2>
+    <p class="section-desc">Xếp hạng từ cao đến thấp. Điểm trung bình của 500 doanh nghiệp ở từng nhóm. Mỗi nhóm tối đa 20 điểm.</p>
+  </div>
+
+  <div class="cat-list">
+    <div class="cat-card">
+      <div class="cat-rank">#1<span class="lb">HẠNG</span></div>
+      <div class="cat-mid">
+        <div class="name">Rõ ràng &amp; Minh bạch</div>
+        <div class="desc">Vai trò rõ ràng, kỳ vọng minh bạch, phản hồi cụ thể</div>
+        <div class="cat-bar-wrap"><div class="cat-bar-fill bg-good" style="width:79%"></div></div>
+      </div>
+      <div class="cat-right">
+        <div class="cat-score">15.8<span class="cat-score-max"> / 20</span></div>
+        <span class="cat-level bg-good">Khá · 79%</span>
+      </div>
+    </div>
+
+    <div class="cat-card">
+      <div class="cat-rank">#2<span class="lb">HẠNG</span></div>
+      <div class="cat-mid">
+        <div class="name">Văn hóa &amp; Quản trị</div>
+        <div class="desc">Lãnh đạo lắng nghe, môi trường lành mạnh</div>
+        <div class="cat-bar-wrap"><div class="cat-bar-fill bg-good" style="width:77%"></div></div>
+      </div>
+      <div class="cat-right">
+        <div class="cat-score">15.4<span class="cat-score-max"> / 20</span></div>
+        <span class="cat-level bg-good">Khá · 77%</span>
+      </div>
+    </div>
+
+    <div class="cat-card">
+      <div class="cat-rank">#3<span class="lb">HẠNG</span></div>
+      <div class="cat-mid">
+        <div class="name">Phúc lợi &amp; Công bằng</div>
+        <div class="desc">Lương, thưởng, công bằng đánh giá</div>
+        <div class="cat-bar-wrap"><div class="cat-bar-fill bg-good" style="width:72%"></div></div>
+      </div>
+      <div class="cat-right">
+        <div class="cat-score">14.4<span class="cat-score-max"> / 20</span></div>
+        <span class="cat-level bg-good">Khá · 72%</span>
+      </div>
+    </div>
+
+    <div class="cat-card">
+      <div class="cat-rank">#4<span class="lb">HẠNG</span></div>
+      <div class="cat-mid">
+        <div class="name">Phát triển con người</div>
+        <div class="desc">Cơ hội học hỏi, mentor, lộ trình phát triển</div>
+        <div class="cat-bar-wrap"><div class="cat-bar-fill bg-moderate" style="width:66%"></div></div>
+      </div>
+      <div class="cat-right">
+        <div class="cat-score" style="color:var(--moderate)">13.2<span class="cat-score-max"> / 20</span></div>
+        <span class="cat-level bg-moderate">Trung bình · 66%</span>
+      </div>
+    </div>
+
+    <div class="cat-card">
+      <div class="cat-rank">#5<span class="lb">HẠNG</span></div>
+      <div class="cat-mid">
+        <div class="name">Tính bền vững</div>
+        <div class="desc">Khối lượng công việc, deadline, cân bằng cuộc sống</div>
+        <div class="cat-bar-wrap"><div class="cat-bar-fill bg-moderate" style="width:63%"></div></div>
+      </div>
+      <div class="cat-right">
+        <div class="cat-score" style="color:var(--moderate)">12.6<span class="cat-score-max"> / 20</span></div>
+        <span class="cat-level bg-moderate">Trung bình · 63%</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOP/BOTTOM Q ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">CÂU HỎI NỔI BẬT</div>
+    <h2 class="section-title">5 câu cao nhất &amp; 5 câu thấp nhất</h2>
+    <p class="section-desc">Trong 25 câu hỏi, đây là những điểm sáng chung và những vấn đề chung của thị trường lao động Việt Nam.</p>
+  </div>
+
+  <div class="qq-grid">
+    <div class="qq-block top">
+      <div class="head">✓ TOP 5 CÂU CÓ ĐIỂM CAO NHẤT</div>
+      <div class="qq-row">
+        <div class="code">B3.3</div>
+        <div class="qtxt">Đồng nghiệp sẵn sàng hỗ trợ khi tôi cần<span class="grp">Văn hóa &amp; Quản trị</span></div>
+        <div><span class="sc">4.4</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B1.1</div>
+        <div class="qtxt">Tôi hiểu rõ vai trò và trách nhiệm của mình<span class="grp">Rõ ràng &amp; Minh bạch</span></div>
+        <div><span class="sc">4.3</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B3.2</div>
+        <div class="qtxt">Môi trường không có bắt nạt, quấy rối, phân biệt<span class="grp">Văn hóa &amp; Quản trị</span></div>
+        <div><span class="sc">4.2</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B1.2</div>
+        <div class="qtxt">Kỳ vọng kết quả công việc được thể hiện rõ ràng<span class="grp">Rõ ràng &amp; Minh bạch</span></div>
+        <div><span class="sc">4.1</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B5.5</div>
+        <div class="qtxt">Tôi được đối xử công bằng so với đồng nghiệp cùng cấp<span class="grp">Phúc lợi &amp; Công bằng</span></div>
+        <div><span class="sc">4.0</span><span class="sc-max">/5</span></div>
+      </div>
+    </div>
+
+    <div class="qq-block bot">
+      <div class="head">⚠ TOP 5 CÂU CÓ ĐIỂM THẤP NHẤT</div>
+      <div class="qq-row">
+        <div class="code">B4.3</div>
+        <div class="qtxt">Làm thêm giờ là ngoại lệ, không phải thông lệ<span class="grp">Tính bền vững</span></div>
+        <div><span class="sc">2.8</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B2.4</div>
+        <div class="qtxt">Tôi nhìn thấy lộ trình phát triển 1-2 năm tới<span class="grp">Phát triển con người</span></div>
+        <div><span class="sc">3.1</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B4.4</div>
+        <div class="qtxt">Tôi có đủ thời gian cho cuộc sống ngoài công việc<span class="grp">Tính bền vững</span></div>
+        <div><span class="sc">3.2</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B5.1</div>
+        <div class="qtxt">Mức lương tương xứng năng lực và đóng góp<span class="grp">Phúc lợi &amp; Công bằng</span></div>
+        <div><span class="sc">3.3</span><span class="sc-max">/5</span></div>
+      </div>
+      <div class="qq-row">
+        <div class="code">B2.2</div>
+        <div class="qtxt">Tôi học hỏi được điều giá trị từ quản lý trực tiếp<span class="grp">Phát triển con người</span></div>
+        <div><span class="sc">3.4</span><span class="sc-max">/5</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DỰ ĐỊNH GẮN BÓ ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">DỰ ĐỊNH GẮN BÓ</div>
+    <h2 class="section-title">Bạn có dự định ở lại 12 tháng tới?</h2>
+    <p class="section-desc">28.473 nhân viên trả lời. Đây là chỉ số dự đoán quan trọng nhất về sự ổn định nhân sự của thị trường lao động Việt Nam.</p>
+  </div>
+
+  <div class="retention-summary">
+    <div class="r-card pos">
+      <div class="r-lbl">Muốn ở lại</div>
+      <div class="r-val">67%</div>
+      <div class="r-sub">Chắc chắn / có thể tiếp tục gắn bó</div>
+    </div>
+    <div class="r-card neu">
+      <div class="r-lbl">Phân vân</div>
+      <div class="r-val">19%</div>
+      <div class="r-sub">Chưa quyết định ở hay đi</div>
+    </div>
+    <div class="r-card neg">
+      <div class="r-lbl">Muốn rời đi</div>
+      <div class="r-val">14%</div>
+      <div class="r-sub">Có thể / chắc chắn rời đi</div>
+    </div>
+  </div>
+
+  <div class="retention-bottom">
+    <div class="dist-box">
+      <h3>Phân bổ chi tiết 5 mức</h3>
+      <div class="dist-row">
+        <div class="dist-label">Chắc chắn có</div>
+        <div class="dist-bar-wrap"><div class="dist-bar-fill" style="width:64%; background:#00C853;">32%</div></div>
+      </div>
+      <div class="dist-row">
+        <div class="dist-label">Có thể có</div>
+        <div class="dist-bar-wrap"><div class="dist-bar-fill" style="width:70%; background:#66BB6A;">35%</div></div>
+      </div>
+      <div class="dist-row">
+        <div class="dist-label">Chưa chắc</div>
+        <div class="dist-bar-wrap"><div class="dist-bar-fill" style="width:38%; background:#FFB300;">19%</div></div>
+      </div>
+      <div class="dist-row">
+        <div class="dist-label">Có thể không</div>
+        <div class="dist-bar-wrap"><div class="dist-bar-fill" style="width:18%; background:#FF7043;">9%</div></div>
+      </div>
+      <div class="dist-row">
+        <div class="dist-label">Chắc chắn không</div>
+        <div class="dist-bar-wrap"><div class="dist-bar-fill" style="width:10%; background:#E53935;">5%</div></div>
+      </div>
+    </div>
+
+    <div class="attention-box">
+      <div class="label">⚠ ĐIỀU ĐÁNG CHÚ Ý</div>
+      <h3>Khoảng 4.000 nhân viên đang nghĩ đến việc rời đi</h3>
+      <p>Khi quy đổi 14% ra con số tuyệt đối, đây là <span class="big">~4.000</span> nhân viên trong số 28.473 người trả lời đang nghĩ đến việc rời đi trong 12 tháng tới.</p>
+      <p>Nếu tính đến cả nhóm "phân vân" (19%), con số có thể chuyển dịch thành biến động nhân sự lớn cho thị trường lao động Việt Nam năm <strong>2026-2027</strong>.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 5 PHÁT HIỆN ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">5 PHÁT HIỆN</div>
+    <h2 class="section-title">Đáng để xã hội cùng quan tâm</h2>
+    <p class="section-desc">JOYWORK rút ra 5 phát hiện mà chúng tôi cho rằng đáng để toàn xã hội — không chỉ riêng cộng đồng HR — quan tâm và thảo luận.</p>
+  </div>
+
+  <div class="finding-card">
+    <span class="finding-num">01</span>
+    <span class="finding-title">Tính bền vững là điểm yếu chung của thị trường</span>
+    <div class="finding-body">
+      Trong 5 nhóm tiêu chí, Tính bền vững (<strong>12.6/20</strong>) đứng cuối cùng — và khoảng cách so với 4 nhóm còn lại không nhỏ. Câu "Làm thêm giờ là ngoại lệ, không phải thông lệ" chỉ đạt <strong>2.8/5 — câu yếu nhất trong toàn bộ 25 câu hỏi</strong>. Câu "Tôi có đủ thời gian cho cuộc sống ngoài công việc" đạt 3.2/5. Phát hiện này không bất ngờ với người trong ngành HR, nhưng nó được xác nhận bằng số liệu lớn lần đầu tiên: làm thêm giờ thường xuyên là chuẩn mực của thị trường lao động Việt Nam, không phải ngoại lệ.
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <span class="finding-num">02</span>
+    <span class="finding-title">Văn hóa đồng nghiệp là điểm sáng lớn nhất</span>
+    <div class="finding-body">
+      Câu "Đồng nghiệp sẵn sàng hỗ trợ khi tôi cần" đạt <strong>4.4/5 — câu cao nhất trong toàn bộ 25 câu hỏi</strong>. Cùng với câu "Môi trường không có bắt nạt, quấy rối, phân biệt" (4.2/5), điều này cho thấy quan hệ ngang hàng giữa các nhân viên Việt Nam là một tài sản chung của thị trường. Tuy nhiên, khi nhìn sang câu "Lãnh đạo nhất quán giữa lời nói và việc làm" (3.6/5) thì khoảng cách rõ rệt: <strong>nhân viên tin tưởng nhau hơn tin tưởng cấp trên</strong>.
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <span class="finding-num">03</span>
+    <span class="finding-title">Lộ trình phát triển — vấn đề âm thầm đẩy nhân viên ra đi</span>
+    <div class="finding-body">
+      Câu "Tôi nhìn thấy lộ trình phát triển 1-2 năm tới" chỉ đạt <strong>3.1/5</strong>, đứng thứ 2 từ dưới lên trong toàn bộ 25 câu hỏi. Đây là vấn đề ít được nhắc đến trong các thảo luận về môi trường làm việc, nhưng dữ liệu cho thấy nó là điểm đau lớn. Khi đối chiếu với câu trả lời về dự định gắn bó: 14% nhân viên có ý định rời đi — và rất có thể nhóm này tương quan cao với nhóm không thấy lộ trình. <strong>Doanh nghiệp Việt Nam đang giữ chân nhân viên bằng lương và phúc lợi, nhưng để mất họ vì không cho thấy tương lai.</strong>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <span class="finding-num">04</span>
+    <span class="finding-title">Vai trò rõ ràng — nhưng quản lý chưa biết phản hồi</span>
+    <div class="finding-body">
+      Trong nhóm Rõ ràng &amp; Minh bạch, câu "Tôi hiểu rõ vai trò" đạt <strong>4.3/5</strong> (rất cao). Nhưng câu "Tôi nhận được phản hồi cụ thể ít nhất 1 lần/tháng" lại thấp hơn nhiều. Doanh nghiệp Việt Nam đã làm tốt phần giao việc và ranh giới trách nhiệm — nhưng chưa giỏi phần đối thoại liên tục giữa quản lý và nhân viên. Điều này lý giải phần nào điểm thấp ở câu "Tôi học hỏi được điều giá trị từ quản lý trực tiếp" (3.4/5). <strong>Quản lý không phản hồi thì nhân viên cũng khó học hỏi.</strong>
+    </div>
+  </div>
+
+  <div class="finding-card">
+    <span class="finding-num">05</span>
+    <span class="finding-title">Một phần tư doanh nghiệp được khảo sát đạt chuẩn</span>
+    <div class="finding-body">
+      <strong>132/500 doanh nghiệp (26.4%)</strong> đạt chuẩn vào List 100 — tổng điểm ≥ 70/100 và không có nhóm nào dưới 10/20 điểm. Đây không phải con số đáng buồn — đó là con số phản ánh thực tế. Cần nhớ rằng đây đã là 500 doanh nghiệp tự nguyện đăng ký tham gia khảo sát ẩn danh, một phép tự chọn lọc bước đầu. Nếu khảo sát toàn bộ thị trường <strong>700.000 doanh nghiệp Việt Nam</strong>, tỷ lệ đạt chuẩn có thể thấp hơn nhiều. Đây là dư địa cải thiện rất lớn — và là cơ hội để các doanh nghiệp tốt nổi bật.
+    </div>
+  </div>
+</section>
+
+<!-- ============ GÓC NHÌN JOYWORK ============ -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-tag">GÓC NHÌN JOYWORK</div>
+    <h2 class="section-title">Báo cáo này đặt câu hỏi, không kết luận</h2>
+    <p class="section-desc">Mời các bên liên quan trong thị trường lao động Việt Nam cùng suy nghĩ.</p>
+  </div>
+
+  <div class="persp-grid">
+    <div class="persp-card b1">
+      <span class="persp-tag">VỚI DOANH NGHIỆP</span>
+      <h3>Văn hóa nội bộ không thể quảng cáo</h3>
+      <p>Nhân viên biết sự thật — và họ sẽ kể sự thật khi được hỏi đúng cách. Doanh nghiệp Việt Nam có 3 lựa chọn: tiếp tục im lặng và đoán mò, tự khảo sát nội bộ, hoặc mời bên thứ ba độc lập.</p>
+      <p><strong>Điểm trung bình thị trường là 71.4/100. Vượt qua điểm trung bình không khó. Khó là vượt qua chính mình của năm trước.</strong></p>
+    </div>
+
+    <div class="persp-card b2">
+      <span class="persp-tag">VỚI NGƯỜI ĐI LÀM</span>
+      <h3>Hỏi 5 câu khi tìm việc</h3>
+      <p>Đừng chỉ hỏi về lương và vị trí. Hãy hỏi: Vai trò có rõ ràng không? Quản lý có cho bạn phản hồi không? Lộ trình phát triển 12 tháng tới là gì? Làm thêm giờ là ngoại lệ hay thông lệ? Lương được tính dựa trên gì?</p>
+      <p>Cách doanh nghiệp <strong>trả lời — hoặc né tránh</strong> 5 câu này sẽ cho bạn biết nhiều hơn bất kỳ trang "giới thiệu văn hóa công ty" nào.</p>
+    </div>
+
+    <div class="persp-card b3">
+      <span class="persp-tag">VỚI CỘNG ĐỒNG HR</span>
+      <h3>Đầu tư đào tạo phản hồi</h3>
+      <p>Phản hồi cụ thể từ quản lý đến nhân viên là một trong những điểm đau lớn nhất của thị trường. Đây không phải vấn đề kỹ năng — đây là vấn đề thói quen và văn hóa tổ chức.</p>
+      <p>Đầu tư đào tạo quản lý cấp trung về cách phản hồi sẽ có <strong>tác động lớn hơn nhiều</strong> so với đầu tư vào các chương trình phúc lợi hào nhoáng.</p>
+    </div>
+  </div>
+
+  <div class="commit-box">
+    <div class="commit-tag">CAM KẾT CỦA JOYWORK</div>
+    <h3>Tấm bản đồ thật phải được vẽ từng năm</h3>
+    <p>JOYWORK sẽ tiếp tục thực hiện báo cáo này hằng năm với quy mô lớn hơn. Đây là cách duy nhất để doanh nghiệp tốt nổi bật, và để người đi làm Việt Nam không còn phải chọn việc trong bóng tối.</p>
+    <div class="commit-roadmap">
+      <div><strong>2026</strong>500 doanh nghiệp</div>
+      <div><strong>2027</strong>1.000 doanh nghiệp</div>
+      <div><strong>2028</strong>2.000 doanh nghiệp</div>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer>
+  <div class="container">
+    <img src="assets/joywork-logo-white.png" alt="JOYWORK" class="logo-img logo-footer">
+    <div class="ft-tag">Nơi doanh nghiệp tốt lên tiếng</div>
+    <div class="ft-line">joywork.vn · Báo cáo Workplace Insight 2026 · Phát hành tháng 06/2026</div>
+    <div class="ft-line">Báo cáo công khai · Dữ liệu tổng hợp ẩn danh từ 28.473 nhân viên tại 500 doanh nghiệp Việt Nam</div>
+  </div>
+</footer>
+
+<!-- FAB đã gỡ — nút Tải PDF được render ngoài iframe trong OverviewReport.tsx -->
+
+<!-- Auto-resize: gửi chiều cao thực sang parent (OverviewReport.tsx) để iframe
+     khớp đúng chiều cao nội dung, user cuộn 1 thanh duy nhất của page. -->
+<script>
+(function() {
+  function sendHeight() {
+    var h = Math.max(
+      document.documentElement.scrollHeight,
+      document.body.scrollHeight
+    );
+    parent.postMessage({ source: 'joywork-report', height: h }, '*');
+  }
+  window.addEventListener('load', sendHeight);
+  window.addEventListener('resize', sendHeight);
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(sendHeight).observe(document.body);
+  } else {
+    // Fallback cho browser cũ
+    setInterval(sendHeight, 1000);
+  }
+})();
+</script>
+
+</body>
+</html>
