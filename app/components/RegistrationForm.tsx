@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
@@ -52,7 +51,7 @@ export default function RegistrationForm() {
   })();
 
   // Lấy UTM params từ URL khi form mount
-  const [utmData, setUtmData] = useState(() => {
+  const utmData = (() => {
     if (typeof window === "undefined") return {};
     const params = new URLSearchParams(window.location.search);
     return {
@@ -63,7 +62,7 @@ export default function RegistrationForm() {
       utmTerm: params.get("utm_term") || undefined,
       pageUrl: window.location.href,
     };
-  });
+  })();
 
   async function onSubmit(values: RegistrationInput) {
     setSubmitState({ status: "submitting" });
