@@ -309,6 +309,10 @@ async function sendTeamNotification(data: {
   phone: string;
   readiness: string;
   referralSource?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  pageUrl?: string;
 }) {
   const apiKey = process.env.RESEND_API_KEY;
   const fromEmail = process.env.RESEND_FROM_EMAIL;
@@ -318,6 +322,13 @@ async function sendTeamNotification(data: {
     console.warn("[register] Resend/team email env not set, skipping...");
     return;
   }
+
+  const utmRow = (data.utmSource || data.utmMedium || data.utmCampaign || data.pageUrl)
+    ? `<tr><td style="padding: 8px 0; font-weight: bold;">UTM Source:</td><td>${data.utmSource || "-"}</td></tr>
+       <tr><td style="padding: 8px 0; font-weight: bold;">UTM Medium:</td><td>${data.utmMedium || "-"}</td></tr>
+       <tr><td style="padding: 8px 0; font-weight: bold;">UTM Campaign:</td><td>${data.utmCampaign || "-"}</td></tr>
+       <tr><td style="padding: 8px 0; font-weight: bold;">Page URL:</td><td>${data.pageUrl || "-"}</td></tr>`
+    : "";
 
   await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -342,6 +353,7 @@ async function sendTeamNotification(data: {
             <tr><td style="padding: 8px 0; font-weight: bold;">Điện thoại:</td><td>${data.phone}</td></tr>
             <tr><td style="padding: 8px 0; font-weight: bold;">Sẵn sàng:</td><td>${data.readiness}</td></tr>
             <tr><td style="padding: 8px 0; font-weight: bold;">Nguồn:</td><td>${data.referralSource || "-"}</td></tr>
+            ${utmRow}
           </table>
         </div>
       `,
@@ -353,9 +365,18 @@ async function sendTeamNotification(data: {
 async function sendLarkNotification(data: {
   companyName: string;
   industry: string;
+  companySize: string;
+  location: string;
   contactName: string;
+  contactPosition: string;
   email: string;
   phone: string;
+  readiness: string;
+  referralSource?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  pageUrl?: string;
 }) {
   const webhookUrl = process.env.LARK_WEBHOOK_URL;
 
@@ -363,6 +384,12 @@ async function sendLarkNotification(data: {
     console.warn("[register] Lark webhook URL not set, skipping...");
     return;
   }
+
+  const utmInfo = data.utmSource || data.utmMedium || data.utmCampaign
+    ? `\n**UTM Source:** ${data.utmSource || "-"}\n**UTM Medium:** ${data.utmMedium || "-"}\n**UTM Campaign:** ${data.utmCampaign || "-"}`
+    : "";
+
+  const referralInfo = data.referralSource ? `\n**Nguồn giới thiệu:** ${data.referralSource}` : "";
 
   await fetch(webhookUrl, {
     method: "POST",
@@ -382,8 +409,20 @@ async function sendLarkNotification(data: {
             tag: "div",
             text: {
               tag: "lark_md",
-              content: `**Doanh nghiệp:** ${data.companyName}\n**Ngành:** ${data.industry}\n**Người liên hệ:** ${data.contactName}\n**Email:** ${data.email}\n**Điện thoại:** ${data.phone}`,
+              content: `**Doanh nghiệp:** ${data.companyName}\n**Ngành:** ${data.industry}\n**Quy mô:** ${data.companySize}\n**Địa điểm:** ${data.location}\n**Người liên hệ:** ${data.contactName} (${data.contactPosition})\n**Email:** ${data.email}\n**Điện thoại:** ${data.phone}\n**Sẵn sàng:** ${data.readiness}${referralInfo}${utmInfo}`,
             },
+          },
+          {
+            tag: "hr",
+          },
+          {
+            tag: "note",
+            elements: [
+              {
+                tag: "lark_md",
+                content: `🕐 ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`,
+              },
+            ],
           },
         ],
       },
