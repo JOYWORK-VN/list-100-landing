@@ -55,9 +55,7 @@ export default function RegistrationForm() {
     setSubmitState({ status: "submitting" });
     try {
       // Endpoint trong route folder → match đường dẫn proxy joywork.vn
-      const res = await fetch(
-        "/list-100-doanh-nghiep-2026/api/register",
-        {
+      const res = await fetch("/api/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(values),
