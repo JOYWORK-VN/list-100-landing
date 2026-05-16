@@ -51,17 +51,19 @@ export default function RegistrationForm() {
     return PERSONAL_EMAIL_DOMAINS.includes(domain);
   })();
 
-  // Lấy UTM params từ URL khi form mount
-  const utmData = (() => {
-    if (typeof window === "undefined") return {};
+  // Lấy UTM params từ URL - dùng useRef để tránh re-render
+  const utmDataRef = (() => {
+    if (typeof window === "undefined") return { current: {} };
     const params = new URLSearchParams(window.location.search);
     return {
-      utmSource: params.get("utm_source") || undefined,
-      utmMedium: params.get("utm_medium") || undefined,
-      utmCampaign: params.get("utm_campaign") || undefined,
-      utmContent: params.get("utm_content") || undefined,
-      utmTerm: params.get("utm_term") || undefined,
-      pageUrl: window.location.href,
+      current: {
+        utmSource: params.get("utm_source") || undefined,
+        utmMedium: params.get("utm_medium") || undefined,
+        utmCampaign: params.get("utm_campaign") || undefined,
+        utmContent: params.get("utm_content") || undefined,
+        utmTerm: params.get("utm_term") || undefined,
+        pageUrl: window.location.href,
+      }
     };
   })();
 
@@ -72,7 +74,7 @@ export default function RegistrationForm() {
       const res = await fetch("/api/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...values, ...utmData }),
+          body: JSON.stringify({ ...values, ...utmDataRef.current }),
         }
       );
       const json = await res.json();
