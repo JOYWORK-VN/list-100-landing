@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { registrationSchema } from "@/lib/registration-schema";
-import { checkRateLimit } from "@/lib/rate-limit";
+import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 
 // Nguồn gốc thiết kế (dùng environment variables trên Vercel):
 // - RESEND_API_KEY: API key của Resend (https://resend.com)
@@ -15,14 +15,15 @@ export const runtime = "nodejs";
 
 export async function POST(request: Request) {
   // 1. Rate limit theo IP (1 lần / 5 phút)
-  const rateLimitResult = await checkRateLimit(request);
-  if (!rateLimitResult.success) {
+  const ip = getClientIp(request.headers);
+  const rateLimitResult = checkRateLimit(ip);
+  if (!rateLimitResult.ok) {
     return NextResponse.json(
       { ok: false, message: "Vui lòng chờ 5 phút trước khi đăng ký lại." },
       {
         status: 429,
         headers: {
-          "Retry-After": String(rateLimitResult.retryAfter),
+          "Retry-After": String(rateLimitResult.retryAfterSeconds),
         },
       }
     );
