@@ -60,10 +60,21 @@ export async function POST(request: Request) {
 
   const data = parsed.data;
 
+  // Extract UTM params từ body (nếu có)
+  const bodyData = body as Record<string, unknown>;
+  const utmData = {
+    utmSource: bodyData.utmSource as string | undefined,
+    utmMedium: bodyData.utmMedium as string | undefined,
+    utmCampaign: bodyData.utmCampaign as string | undefined,
+    utmContent: bodyData.utmContent as string | undefined,
+    utmTerm: bodyData.utmTerm as string | undefined,
+    pageUrl: bodyData.pageUrl as string | undefined,
+  };
+
   // 4. Lưu Airtable + gửi email + notify Lark — song song để giảm độ trễ
   const [sheetResult, userEmailResult, teamEmailResult, larkResult] =
     await Promise.allSettled([
-      saveToAirtable(data),
+      saveToAirtable({ ...data, ...utmData }),
       sendConfirmationEmail(data),
       sendTeamNotification(data),
       sendLarkNotification(data),
@@ -104,6 +115,7 @@ export async function POST(request: Request) {
 }
 
 // --- Airtable: lưu record ---
+// Lưu ý: Airtable sử dụng single select fields, nên cần map giá trị cho đúng
 async function saveToAirtable(data: {
   companyName: string;
   industry: string;
@@ -115,6 +127,13 @@ async function saveToAirtable(data: {
   phone: string;
   readiness: string;
   referralSource?: string;
+  consent?: boolean;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
+  pageUrl?: string;
 }) {
   const token = process.env.AIRTABLE_TOKEN;
   const baseId = process.env.AIRTABLE_BASE_ID;
@@ -135,17 +154,24 @@ async function saveToAirtable(data: {
     },
     body: JSON.stringify({
       fields: {
-        companyName: data.companyName,
-        industry: data.industry,
-        companySize: data.companySize,
-        location: data.location,
-        contactName: data.contactName,
-        contactPosition: data.contactPosition,
-        email: data.email,
-        phone: data.phone,
-        readiness: data.readiness,
-        referralSource: data.referralSource || "",
-        timestamp: new Date().toISOString(),
+        CompanyName: data.companyName,
+        Industry: mapIndustry(data.industry),
+        CompanySize: mapCompanySize(data.companySize),
+        Location: mapLocation(data.location),
+        ContactName: data.contactName,
+        Position: mapPosition(data.contactPosition),
+        Email: data.email,
+        Phone: data.phone,
+        Readiness: mapReadiness(data.readiness),
+        ReferralSource: mapReferralSource(data.referralSource),
+        Consent: data.consent ?? false,
+        UTM_Source: data.utmSource || "",
+        UTM_Medium: data.utmMedium || "",
+        UTM_Campaign: data.utmCampaign || "",
+        UTM_Content: data.utmContent || "",
+        UTM_Term: data.utmTerm || "",
+        PageURL: data.pageUrl || "",
+        SubmittedAt: new Date().toISOString(),
       },
     }),
   });
@@ -154,6 +180,81 @@ async function saveToAirtable(data: {
     const text = await res.text();
     throw new Error(`Airtable error ${res.status}: ${text}`);
   }
+}
+
+// Map form industry values to Airtable single select values
+function mapIndustry(value: string): string {
+  const map: Record<string, string> = {
+    "Marcom / Quảng cáo / Truyền thông": "Khác",
+    "Công nghệ thông tin / Phần mềm": "Công nghệ thông tin",
+    "Tài chính / Ngân hàng / Bảo hiểm": "Tài chính - Ngân hàng",
+    "Bán lẻ / Thương mại điện tử": "Thương mại - Dịch vụ",
+    "Sản xuất / Logistics": "Sản xuất - Công nghiệp",
+    "Giáo dục / Đào tạo": "Giáo dục - Đào tạo",
+    "Y tế / Chăm sóc sức khỏe": "Y tế - Dược phẩm",
+    "Bất động sản / Xây dựng": "Bất động sản",
+    "Dịch vụ chuyên môn (Kế toán, Luật, Tư vấn)": "Thương mại - Dịch vụ",
+    Khác: "Khác",
+  };
+  return map[value] || value;
+}
+
+// Map form company size values to Airtable single select values
+function mapCompanySize(value: string): string {
+  const map: Record<string, string> = {
+    "15-30 người": "Dưới 50 nhân viên",
+    "31-50 người": "Dưới 50 nhân viên",
+    "51-100 người": "50-200 nhân viên",
+    "101-300 người": "50-200 nhân viên",
+    "301-500 người": "201-500 nhân viên",
+    "Trên 500 người": "Trên 1000 nhân viên",
+  };
+  return map[value] || "Không xác định";
+}
+
+// Map form location values to Airtable single select values
+function mapLocation(value: string): string {
+  const map: Record<string, string> = {
+    "TP. Hồ Chí Minh": "Hồ Chí Minh",
+    "Hà Nội": "Hà Nội",
+    "Đà Nẵng": "Đà Nẵng",
+    Khác: "Khác",
+  };
+  return map[value] || value;
+}
+
+// Map form position values to Airtable single select values
+function mapPosition(value: string): string {
+  const map: Record<string, string> = {
+    "CEO / Founder": "CEO/Chủ tịch",
+    "HR Manager / HR Director": "Trưởng phòng/Quản lý",
+    "Trưởng phòng / Phó phòng": "Trưởng phòng/Quản lý",
+    Khác: "Nhân viên",
+  };
+  return map[value] || value;
+}
+
+// Map form readiness values to Airtable single select values
+function mapReadiness(value: string): string {
+  const map: Record<string, string> = {
+    "Đã sẵn sàng": "Có",
+    "Cần tư vấn thêm": "Không",
+  };
+  return map[value] || value;
+}
+
+// Map form referral source values to Airtable single select values
+function mapReferralSource(value?: string): string {
+  if (!value) return "";
+  const map: Record<string, string> = {
+    LinkedIn: "LinkedIn",
+    Facebook: "Facebook",
+    Email: "Email",
+    "Báo chí": "Website",
+    "Bạn bè giới thiệu": "Bạn bè - Đồng nghiệp",
+    Khác: "Khác",
+  };
+  return map[value] || value;
 }
 
 // --- Email xác nhận cho user ---
