@@ -397,12 +397,7 @@ async function sendLarkNotification(data: {
     year: "numeric",
   });
 
-  // Đánh giá mức độ sẵn sàng để hiển thị badge
-  const readinessLabel = data.readiness === "Đã sẵn sàng" ? "Sẵn sàng" : "Cần tư vấn";
-  const readinessColor = data.readiness === "Đã sẵn sàng" ? "turquoise" : "yellow";
-  const readinessTextColor = data.readiness === "Đã sẵn sàng" ? "#00A381" : "#CC7800";
-
-  // Badge icon theo nguồn giới thiệu
+  // Nguồn giới thiệu với icon
   const referralIcon: Record<string, string> = {
     LinkedIn: "🔗",
     Facebook: "👥",
