@@ -5,7 +5,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 export const alt =
-  "Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026 - JOYWORK";
+  "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026 - JOYWORK";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -74,7 +74,7 @@ export default async function OGImage() {
               gap: "0 18px",
             }}
           >
-            <span>Danh sách Doanh nghiệp có</span>
+            <span>Khảo sát doanh nghiệp có</span>
             <span
               style={{
                 background:
@@ -83,7 +83,7 @@ export default async function OGImage() {
                 color: "transparent",
               }}
             >
-              Môi trường Làm việc Tốt
+              môi trường làm việc tốt
             </span>
             <span>2026</span>
           </div>

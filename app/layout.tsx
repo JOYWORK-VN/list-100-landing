@@ -13,12 +13,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     absolute:
-      "Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026 | JOYWORK",
+      "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026 | JOYWORK",
   },
   description:
     "Chương trình xác thực doanh nghiệp có môi trường làm việc tốt 2026 từ JOYWORK. Đánh giá độc lập qua khảo sát ẩn danh nhân viên. Đăng ký miễn phí.",
   keywords: [
-    "Danh sách Doanh nghiệp có Môi trường Làm việc Tốt",
+    "Khảo sát doanh nghiệp có môi trường làm việc tốt",
     "JOYWORK",
     "môi trường làm việc tốt",
     "doanh nghiệp 2026",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "JOYWORK",
     url: SITE_URL,
     title:
-      "Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026 | JOYWORK",
+      "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026 | JOYWORK",
     description:
       "Chương trình xác thực doanh nghiệp có môi trường làm việc tốt 2026 từ JOYWORK. Đánh giá độc lập qua khảo sát ẩn danh nhân viên.",
   },
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@joywork",
     title:
-      "Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026 | JOYWORK",
+      "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026 | JOYWORK",
     description:
       "Chương trình xác thực doanh nghiệp có môi trường làm việc tốt 2026. Khảo sát ẩn danh 3 lớp độc lập.",
   },
@@ -79,7 +79,7 @@ export default function RootLayout({
   const eventJsonLd = {
     "@context": "https://schema.org",
     "@type": "Event",
-    name: "Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026",
+    name: "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026",
     description:
       "Chương trình xác thực các doanh nghiệp có môi trường làm việc tốt 2026 từ JOYWORK qua khảo sát ẩn danh 3 lớp độc lập.",
     startDate: "2026-01-01",
