@@ -186,6 +186,7 @@ async function saveToAirtable(data: {
 function mapIndustry(value: string): string {
   const map: Record<string, string> = {
     "Marcom / Quảng cáo / Truyền thông": "Khác",
+    Agency: "Agency",
     "Công nghệ thông tin / Phần mềm": "Công nghệ thông tin",
     "Tài chính / Ngân hàng / Bảo hiểm": "Tài chính - Ngân hàng",
     "Bán lẻ / Thương mại điện tử": "Thương mại - Dịch vụ",

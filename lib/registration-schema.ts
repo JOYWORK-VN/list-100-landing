@@ -4,6 +4,7 @@ import { z } from "zod";
 
 export const INDUSTRIES = [
   "Marcom / Quảng cáo / Truyền thông",
+  "Agency",
   "Công nghệ thông tin / Phần mềm",
   "Tài chính / Ngân hàng / Bảo hiểm",
   "Bán lẻ / Thương mại điện tử",
