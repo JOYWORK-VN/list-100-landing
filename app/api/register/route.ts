@@ -77,7 +77,7 @@ export async function POST(request: Request) {
       saveToAirtable({ ...data, ...utmData }),
       sendConfirmationEmail(data),
       sendTeamNotification(data),
-      sendLarkNotification(data),
+      sendLarkNotification({ ...data, ...utmData }),
     ]);
 
   // Log lỗi server-side nhưng vẫn trả success cho user nếu ít nhất 1 trong 4 thành công
@@ -376,20 +376,257 @@ async function sendLarkNotification(data: {
   utmSource?: string;
   utmMedium?: string;
   utmCampaign?: string;
+  utmContent?: string;
+  utmTerm?: string;
   pageUrl?: string;
 }) {
   const webhookUrl = process.env.LARK_WEBHOOK_URL;
+  const airtableBaseId = process.env.AIRTABLE_BASE_ID;
 
   if (!webhookUrl) {
     console.warn("[register] Lark webhook URL not set, skipping...");
     return;
   }
 
-  const utmInfo = data.utmSource || data.utmMedium || data.utmCampaign
-    ? `\n**UTM Source:** ${data.utmSource || "-"}\n**UTM Medium:** ${data.utmMedium || "-"}\n**UTM Campaign:** ${data.utmCampaign || "-"}`
-    : "";
+  const timestamp = new Date().toLocaleString("vi-VN", {
+    timeZone: "Asia/Ho_Chi_Minh",
+    hour: "2-digit",
+    minute: "2-digit",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 
-  const referralInfo = data.referralSource ? `\n**Nguồn giới thiệu:** ${data.referralSource}` : "";
+  // Đánh giá mức độ sẵn sàng để hiển thị badge
+  const readinessLabel = data.readiness === "Đã sẵn sàng" ? "Sẵn sàng" : "Cần tư vấn";
+  const readinessColor = data.readiness === "Đã sẵn sàng" ? "turquoise" : "yellow";
+  const readinessTextColor = data.readiness === "Đã sẵn sàng" ? "#00A381" : "#CC7800";
+
+  // Badge icon theo nguồn giới thiệu
+  const referralIcon: Record<string, string> = {
+    LinkedIn: "🔗",
+    Facebook: "👥",
+    Email: "✉️",
+    "Báo chí": "📰",
+    "Bạn bè giới thiệu": "🤝",
+  };
+  const referralDisplay = data.referralSource
+    ? `${referralIcon[data.referralSource] || "📌"} ${data.referralSource}`
+    : "—";
+
+  // Tổng hợp UTM để hiển thị compact
+  const hasUtm = data.utmSource || data.utmMedium || data.utmCampaign || data.utmContent || data.utmTerm;
+
+  // Build card elements — chia 2 cột thông tin chính
+  const bodyElements: object[] = [
+    // --- Section: Thông tin doanh nghiệp ---
+    {
+      tag: "markdown",
+      content: "## 🏢 Thông tin doanh nghiệp",
+    },
+    {
+      tag: "column_set",
+      fields: [
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Doanh nghiệp**\n${data.companyName}`,
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Ngành nghề**\n${data.industry}`,
+          },
+        },
+      ],
+    },
+    {
+      tag: "column_set",
+      fields: [
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Quy mô nhân sự**\n${data.companySize}`,
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Địa điểm**\n${data.location}`,
+          },
+        },
+      ],
+    },
+
+    // --- Section: Thông tin liên hệ ---
+    {
+      tag: "markdown",
+      content: "## 👤 Thông tin liên hệ",
+    },
+    {
+      tag: "column_set",
+      fields: [
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Người liên hệ**\n${data.contactName}`,
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Chức vụ**\n${data.contactPosition}`,
+          },
+        },
+      ],
+    },
+    {
+      tag: "column_set",
+      fields: [
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Email**\n${data.email}`,
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Điện thoại**\n${data.phone}`,
+          },
+        },
+      ],
+    },
+
+    // --- Section: Thông tin đăng ký ---
+    {
+      tag: "markdown",
+      content: "## 📝 Thông tin đăng ký",
+    },
+    {
+      tag: "column_set",
+      fields: [
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Mức độ sẵn sàng**\n🟢 ${data.readiness}`,
+          },
+        },
+        {
+          is_short: true,
+          text: {
+            tag: "lark_md",
+            content: `**Nguồn giới thiệu**\n${referralDisplay}`,
+          },
+        },
+      ],
+    },
+  ];
+
+  // Thêm section UTM nếu có
+  if (hasUtm) {
+    bodyElements.push(
+      {
+        tag: "markdown",
+        content: "## 📊 Marketing Tracking (UTM)",
+      },
+      {
+        tag: "column_set",
+        fields: [
+          {
+            is_short: true,
+            text: {
+              tag: "lark_md",
+              content: `**Source**\n${data.utmSource || "—"}`,
+            },
+          },
+          {
+            is_short: true,
+            text: {
+              tag: "lark_md",
+              content: `**Medium**\n${data.utmMedium || "—"}`,
+            },
+          },
+          {
+            is_short: true,
+            text: {
+              tag: "lark_md",
+              content: `**Campaign**\n${data.utmCampaign || "—"}`,
+            },
+          },
+        ],
+      }
+    );
+    if (data.utmContent || data.utmTerm) {
+      bodyElements.push({
+        tag: "column_set",
+        fields: [
+          {
+            is_short: true,
+            text: {
+              tag: "lark_md",
+              content: `**Content**\n${data.utmContent || "—"}`,
+            },
+          },
+          {
+            is_short: true,
+            text: {
+              tag: "lark_md",
+              content: `**Term**\n${data.utmTerm || "—"}`,
+            },
+          },
+        ],
+      });
+    }
+    if (data.pageUrl) {
+      bodyElements.push({
+        tag: "markdown",
+        content: `🔗 **Trang đăng ký:** [${data.pageUrl}](${data.pageUrl})`,
+      });
+    }
+  }
+
+  // Footer với timestamp
+  bodyElements.push(
+    { tag: "hr" },
+    {
+      tag: "note",
+      elements: [
+        {
+          tag: "lark_md",
+          content: `🕐 Đăng ký lúc **${timestamp}** (ICT) | Nguồn: **List-100 2026**`,
+        },
+      ],
+    }
+  );
+
+  // Airtable link button
+  const airtableUrl = airtableBaseId
+    ? `https://airtable.com/${airtableBaseId}`
+    : "https://airtable.com";
+  const airtableButton = {
+    tag: "action",
+    actions: [
+      {
+        tag: "open_url",
+        text: {
+          tag: "plain_text",
+          content: "📋 Xem trong Airtable",
+        },
+        url: airtableUrl,
+      },
+    ],
+  };
 
   await fetch(webhookUrl, {
     method: "POST",
@@ -400,30 +637,26 @@ async function sendLarkNotification(data: {
         header: {
           title: {
             tag: "plain_text",
-            content: "📋 Đăng ký List-100 2026 mới",
+            content: "🆕 Đăng ký List-100 2026 — Doanh nghiệp mới",
           },
-          template: "blue",
+          subtitle: {
+            tag: "plain_text",
+            content: data.companyName,
+          },
+          template: "turquoise",
         },
         elements: [
           {
             tag: "div",
             text: {
               tag: "lark_md",
-              content: `**Doanh nghiệp:** ${data.companyName}\n**Ngành:** ${data.industry}\n**Quy mô:** ${data.companySize}\n**Địa điểm:** ${data.location}\n**Người liên hệ:** ${data.contactName} (${data.contactPosition})\n**Email:** ${data.email}\n**Điện thoại:** ${data.phone}\n**Sẵn sàng:** ${data.readiness}${referralInfo}${utmInfo}`,
+              content: `> **${data.contactName}** vừa đăng ký tham gia chương trình **Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026**\n\n**Trạng thái sẵn sàng:** ${data.readiness === "Đã sẵn sàng" ? "✅ Đã sẵn sàng" : "💬 Cần tư vấn thêm"}`,
             },
           },
-          {
-            tag: "hr",
-          },
-          {
-            tag: "note",
-            elements: [
-              {
-                tag: "lark_md",
-                content: `🕐 ${new Date().toLocaleString("vi-VN", { timeZone: "Asia/Ho_Chi_Minh" })}`,
-              },
-            ],
-          },
+          { tag: "hr" },
+          ...bodyElements,
+          { tag: "hr" },
+          airtableButton,
         ],
       },
     }),
