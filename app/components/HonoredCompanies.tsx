@@ -23,7 +23,7 @@ export default function HonoredCompanies() {
   useEffect(() => {
     async function fetchCompanies() {
       try {
-        const res = await fetch("/api/honored-companies");
+        const res = await fetch(`/api/honored-companies?t=${Date.now()}`);
         const json = await res.json();
 
         if (json.ok) {
