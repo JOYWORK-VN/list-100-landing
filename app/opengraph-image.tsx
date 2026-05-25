@@ -74,7 +74,7 @@ export default async function OGImage() {
               gap: "0 18px",
             }}
           >
-            <span>Khảo sát doanh nghiệp có</span>
+            <span>Khảo sát doanh nghiệp</span>
             <span
               style={{
                 background:
@@ -83,7 +83,7 @@ export default async function OGImage() {
                 color: "transparent",
               }}
             >
-              môi trường làm việc tốt
+              có môi trường làm việc tốt
             </span>
             <span>2026</span>
           </div>

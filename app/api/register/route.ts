@@ -60,29 +60,11 @@ export async function POST(request: Request) {
 
   const data = parsed.data;
 
-  // 3b. Guard against blank records — nếu required fields trống hoặc chỉ có whitespace,
-  // reject ngay. Tránh được các bot/submission tạo record trắng vào Airtable.
-  const requiredFields: [string, unknown][] = [
-    ["companyName", data.companyName],
-    ["industry", data.industry],
-    ["companySize", data.companySize],
-    ["location", data.location],
-    ["contactName", data.contactName],
-    ["contactPosition", data.contactPosition],
-    ["email", data.email],
-    ["phone", data.phone],
-  ];
-  const blankField = requiredFields.find(([, v]) => {
-    const str = typeof v === "string" ? v.trim() : String(v ?? "");
-    return str.length === 0;
-  });
-  if (blankField) {
+  // 3b. Guard chống edge case: nếu parsed data rỗng → reject
+  if (!data || !data.companyName?.trim() || !data.email?.trim()) {
+    console.warn("[register] Rejected empty/invalid parsed data");
     return NextResponse.json(
-      {
-        ok: false,
-        message: `Thông tin đăng ký không hợp lệ.`,
-        errors: { [blankField[0]]: ["Trường này không được để trống."] },
-      },
+      { ok: false, message: "Thông tin đăng ký không hợp lệ." },
       { status: 422 }
     );
   }
@@ -98,7 +80,15 @@ export async function POST(request: Request) {
     pageUrl: bodyData.pageUrl as string | undefined,
   };
 
-  // 4. Lưu Airtable + gửi email + notify Lark — song song để giảm độ trễ
+  // 4. Deduplication: check trùng email trong Airtable trước khi save
+  const duplicateResult = await checkDuplicateEmail(data.email);
+  if (duplicateResult.duplicate) {
+    console.warn(`[register] Duplicate email: ${data.email} (already registered)`);
+    // Không tạo record trùng — vẫn trả success cho UX
+    return NextResponse.json({ ok: true });
+  }
+
+  // 5. Lưu Airtable + gửi email + notify Lark — song song để giảm độ trễ
   const [sheetResult, userEmailResult, teamEmailResult, larkResult] =
     await Promise.allSettled([
       saveToAirtable({ ...data, ...utmData }),
@@ -139,6 +129,34 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json({ ok: true });
+}
+
+// --- Deduplication: kiểm tra email đã tồn tại trong Airtable ---
+async function checkDuplicateEmail(email: string): Promise<{ duplicate: boolean }> {
+  const token = process.env.AIRTABLE_TOKEN;
+  const baseId = process.env.AIRTABLE_BASE_ID;
+  const tableName = process.env.AIRTABLE_TABLE_NAME || "Registrations";
+
+  if (!token || !baseId) {
+    return { duplicate: false };
+  }
+
+  const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
+
+  const res = await fetch(url + `?filterByFormula=Email="${encodeURIComponent(email)}"&maxRecords=1`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!res.ok) {
+    console.warn("[register] Duplicate check failed:", res.status);
+    return { duplicate: false };
+  }
+
+  const data = await res.json();
+  return { duplicate: (data.records?.length ?? 0) > 0 };
 }
 
 // --- Airtable: lưu record ---
@@ -308,11 +326,11 @@ async function sendConfirmationEmail(data: {
     body: JSON.stringify({
       from: fromEmail,
       to: data.email,
-      subject: "Xác nhận đăng ký tham gia Khảo sát môi trường làm việc tốt 2026",
+      subject: "Xác nhận đăng ký tham gia Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026",
       html: `
         <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #1347CD;">Xin chào ${data.contactName},</h2>
-          <p>JOYWORK đã nhận được đăng ký của <strong>${data.companyName}</strong> tham gia chương trình <strong>Khảo sát doanh nghiệp có môi trường làm việc tốt 2026</strong>.</p>
+          <p>JOYWORK đã nhận được đăng ký của <strong>${data.companyName}</strong> tham gia chương trình <strong>Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026</strong>.</p>
           <p>Đội ngũ JOYWORK sẽ liên hệ trong <strong>3 ngày làm việc</strong> để hướng dẫn các bước tiếp theo.</p>
           <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;">
           <p style="color: #666; font-size: 14px;">
@@ -673,7 +691,7 @@ async function sendLarkNotification(data: {
             tag: "div",
             text: {
               tag: "lark_md",
-              content: `> **${data.contactName}** vừa đăng ký tham gia chương trình **Khảo sát doanh nghiệp có môi trường làm việc tốt 2026**\n\n**Trạng thái sẵn sàng:** ${data.readiness === "Đã sẵn sàng" ? "✅ Đã sẵn sàng" : "💬 Cần tư vấn thêm"}`,
+              content: `> **${data.contactName}** vừa đăng ký tham gia chương trình **Danh sách Doanh nghiệp có Môi trường Làm việc Tốt 2026**\n\n**Trạng thái sẵn sàng:** ${data.readiness === "Đã sẵn sàng" ? "✅ Đã sẵn sàng" : "💬 Cần tư vấn thêm"}`,
             },
           },
           { tag: "hr" },

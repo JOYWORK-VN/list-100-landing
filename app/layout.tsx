@@ -13,14 +13,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     absolute:
-      "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026 | JOYWORK",
+      "Khảo sát doanh nghiệp có môi trường làm việc tốt | JOYWORK",
   },
   description:
     "Chương trình xác thực doanh nghiệp có môi trường làm việc tốt 2026 từ JOYWORK. Đánh giá độc lập qua khảo sát ẩn danh nhân viên. Đăng ký miễn phí.",
   keywords: [
-    "Khảo sát doanh nghiệp có môi trường làm việc tốt",
-    "JOYWORK",
+    "Khảo sát doanh nghiệp",
     "môi trường làm việc tốt",
+    "JOYWORK",
     "doanh nghiệp 2026",
     "khảo sát văn hóa doanh nghiệp",
     "employer branding",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "JOYWORK",
     url: SITE_URL,
     title:
-      "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026 | JOYWORK",
+      "Khảo sát doanh nghiệp có môi trường làm việc tốt | JOYWORK",
     description:
       "Chương trình xác thực doanh nghiệp có môi trường làm việc tốt 2026 từ JOYWORK. Đánh giá độc lập qua khảo sát ẩn danh nhân viên.",
   },
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     site: "@joywork",
     title:
-      "Khảo sát doanh nghiệp có môi trường làm việc tốt 2026 | JOYWORK",
+      "Khảo sát doanh nghiệp có môi trường làm việc tốt | JOYWORK",
     description:
       "Chương trình xác thực doanh nghiệp có môi trường làm việc tốt 2026. Khảo sát ẩn danh 3 lớp độc lập.",
   },
