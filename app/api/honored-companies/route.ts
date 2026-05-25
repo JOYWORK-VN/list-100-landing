@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 
+// Force dynamic rendering - không dùng cache
+export const dynamic = "force-dynamic";
+
 export async function GET() {
   const token = process.env.AIRTABLE_TOKEN;
   const baseId = process.env.AIRTABLE_BASE_ID;
@@ -23,8 +26,6 @@ export async function GET() {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      // F5 luôn fetch fresh data từ Airtable
-      cache: "no-store",
     });
 
     if (!res.ok) {
