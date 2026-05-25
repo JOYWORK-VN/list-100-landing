@@ -19,7 +19,8 @@ export async function GET() {
   }
 
   try {
-    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}?sort[0][field]=Order&sort[0][direction]=asc`;
+    // Không sort ở Airtable - sort bằng JS sau khi nhận data
+    const url = `https://api.airtable.com/v0/${baseId}/${encodeURIComponent(tableName)}`;
 
     const res = await fetch(url, {
       headers: {
@@ -39,24 +40,30 @@ export async function GET() {
 
     const data = await res.json();
 
-    // Transform to simpler format for frontend, filter out records without Name
+    // Log fields để debug
+    console.log("[honored-companies] Raw fields sample:", data.records?.[0]?.fields);
+
+    // Transform và sort bằng JS - lấy tất cả field name để sort
     const companies = data.records
-      .filter((record: { fields: { Name?: string } }) => record.fields.Name)
-      .map((record: {
-        id: string;
-        fields: {
-          Name?: string;
-          ProfileUrl?: string;
-          JobsUrl?: string;
-          Order?: number;
+      .filter((record: { fields: Record<string, unknown> }) => record.fields.Name)
+      .map((record: { id: string; fields: Record<string, unknown> }) => {
+        const fields = record.fields;
+        // Tìm field order - thử nhiều tên khác nhau
+        let order = 0;
+        if (fields.Order !== undefined) order = Number(fields.Order) || 0;
+        else if (fields["#Order"] !== undefined) order = Number(fields["#Order"]) || 0;
+        else if (fields.order !== undefined) order = Number(fields.order) || 0;
+
+        return {
+          id: record.id,
+          name: String(fields.Name || ""),
+          profileUrl: String(fields.ProfileUrl || fields.profileUrl || ""),
+          jobsUrl: String(fields.JobsUrl || fields.jobsUrl || ""),
+          order,
         };
-      }) => ({
-        id: record.id,
-        name: record.fields.Name || "",
-        profileUrl: record.fields.ProfileUrl || "",
-        jobsUrl: record.fields.JobsUrl || "",
-        order: record.fields.Order || 0,
-      }));
+      })
+      // Sort theo order tăng dần
+      .sort((a, b) => a.order - b.order);
 
     return NextResponse.json({
       ok: true,
