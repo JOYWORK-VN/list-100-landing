@@ -93,7 +93,7 @@ export default function HonoredCompanies() {
           >
             Những doanh nghiệp đạt danh hiệu{" "}
             <span className="text-joy-600">
-              "Doanh nghiệp có môi trường làm việc tốt"
+              {"\"Doanh nghiệp có môi trường làm việc tốt\""}
             </span>
           </h2>
           <p className="mt-4 text-base text-deepspace-300 sm:text-lg">
