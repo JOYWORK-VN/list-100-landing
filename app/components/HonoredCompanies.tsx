@@ -25,6 +25,7 @@ export default function HonoredCompanies() {
       try {
         const res = await fetch("/api/honored-companies");
         const json = await res.json();
+
         if (json.ok) {
           setCompanies(json.companies);
         } else {
@@ -143,24 +144,44 @@ export default function HonoredCompanies() {
                     </h3>
                   </div>
                   <div className="flex flex-shrink-0 gap-2">
-                    <a
-                      href={company.profileUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-deepspace-50 bg-white px-3 py-2 text-xs font-semibold text-deepspace transition hover:border-joy-200 hover:bg-joy-50 hover:text-joy-600 sm:text-sm"
-                    >
-                      <Eye className="h-4 w-4" aria-hidden="true" />
-                      Xem hồ sơ doanh nghiệp
-                    </a>
-                    <a
-                      href={company.jobsUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-joy-500 bg-white px-3 py-2 text-xs font-semibold text-joy-600 transition hover:bg-joy-50 sm:text-sm"
-                    >
-                      <Briefcase className="h-4 w-4" aria-hidden="true" />
-                      Xem tin tuyển dụng
-                    </a>
+                    {company.profileUrl ? (
+                      <a
+                        href={company.profileUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-deepspace-50 bg-white px-3 py-2 text-xs font-semibold text-deepspace transition hover:border-joy-200 hover:bg-joy-50 hover:text-joy-600 sm:text-sm"
+                      >
+                        <Eye className="h-4 w-4" aria-hidden="true" />
+                        Xem hồ sơ doanh nghiệp
+                      </a>
+                    ) : (
+                      <span
+                        className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-400 cursor-not-allowed sm:text-sm"
+                        title="Đang cập nhật"
+                      >
+                        <Eye className="h-4 w-4" aria-hidden="true" />
+                        Xem hồ sơ doanh nghiệp
+                      </span>
+                    )}
+                    {company.jobsUrl ? (
+                      <a
+                        href={company.jobsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-joy-500 bg-white px-3 py-2 text-xs font-semibold text-joy-600 transition hover:bg-joy-50 sm:text-sm"
+                      >
+                        <Briefcase className="h-4 w-4" aria-hidden="true" />
+                        Xem tin tuyển dụng
+                      </a>
+                    ) : (
+                      <span
+                        className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-400 cursor-not-allowed sm:text-sm"
+                        title="Đang cập nhật"
+                      >
+                        <Briefcase className="h-4 w-4" aria-hidden="true" />
+                        Xem tin tuyển dụng
+                      </span>
+                    )}
                   </div>
                 </li>
               ))}

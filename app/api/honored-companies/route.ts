@@ -23,7 +23,8 @@ export async function GET() {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      next: { revalidate: 300 }, // Cache 5 minutes
+      // F5 luôn fetch fresh data từ Airtable
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -37,22 +38,24 @@ export async function GET() {
 
     const data = await res.json();
 
-    // Transform to simpler format for frontend
-    const companies = data.records.map((record: {
-      id: string;
-      fields: {
-        Name?: string;
-        ProfileUrl?: string;
-        JobsUrl?: string;
-        Order?: number;
-      };
-    }) => ({
-      id: record.id,
-      name: record.fields.Name || "",
-      profileUrl: record.fields.ProfileUrl || "#",
-      jobsUrl: record.fields.JobsUrl || "#",
-      order: record.fields.Order || 0,
-    }));
+    // Transform to simpler format for frontend, filter out records without Name
+    const companies = data.records
+      .filter((record: { fields: { Name?: string } }) => record.fields.Name)
+      .map((record: {
+        id: string;
+        fields: {
+          Name?: string;
+          ProfileUrl?: string;
+          JobsUrl?: string;
+          Order?: number;
+        };
+      }) => ({
+        id: record.id,
+        name: record.fields.Name || "",
+        profileUrl: record.fields.ProfileUrl || "",
+        jobsUrl: record.fields.JobsUrl || "",
+        order: record.fields.Order || 0,
+      }));
 
     return NextResponse.json({
       ok: true,

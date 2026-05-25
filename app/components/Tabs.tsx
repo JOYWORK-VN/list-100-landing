@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type ReactNode } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 
 // Tabs điều hướng dưới Hero — click để chuyển nội dung.
 // Sticky để khi cuộn vẫn còn nút chuyển tab.
@@ -18,7 +19,27 @@ type Tab = {
 };
 
 export default function Tabs({ tabs }: { tabs: Tab[] }) {
-  const [activeId, setActiveId] = useState(tabs[0]?.id);
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Đọc tab từ URL search params, mặc định là tab đầu tiên
+  const getInitialTab = () => {
+    const tabParam = searchParams.get("tab");
+    if (tabParam && tabs.some((t) => t.id === tabParam)) {
+      return tabParam;
+    }
+    return tabs[0]?.id;
+  };
+
+  const [activeId, setActiveId] = useState(getInitialTab);
+
+  // Cập nhật URL khi tab thay đổi (để F5 không bị reset)
+  const updateUrl = (newTabId: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", newTabId);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   useEffect(() => {
     const tabIds = new Set(tabs.map((t) => t.id));
@@ -37,6 +58,7 @@ export default function Tabs({ tabs }: { tabs: Tab[] }) {
 
       if (tabIds.has(hash)) {
         setActiveId(hash);
+        updateUrl(hash);
         scrollToHash();
         return;
       }
@@ -44,14 +66,26 @@ export default function Tabs({ tabs }: { tabs: Tab[] }) {
       const owningTab = tabs.find((t) => t.sections?.includes(hash));
       if (owningTab) {
         setActiveId(owningTab.id);
+        updateUrl(owningTab.id);
         scrollToHash();
       }
     };
 
+    // Đồng bộ tab từ URL params nếu có
+    const tabParam = searchParams.get("tab");
+    if (tabParam && tabIds.has(tabParam)) {
+      setActiveId(tabParam);
+    }
+
     syncFromHash();
     window.addEventListener("hashchange", syncFromHash);
     return () => window.removeEventListener("hashchange", syncFromHash);
-  }, [tabs]);
+  }, [tabs, searchParams]);
+
+  const handleTabClick = (tabId: string) => {
+    setActiveId(tabId);
+    updateUrl(tabId);
+  };
 
   const active = tabs.find((t) => t.id === activeId) ?? tabs[0];
 
@@ -75,7 +109,7 @@ export default function Tabs({ tabs }: { tabs: Tab[] }) {
                   aria-selected={isActive}
                   aria-controls={`panel-${tab.id}`}
                   id={`tab-${tab.id}`}
-                  onClick={() => setActiveId(tab.id)}
+                  onClick={() => handleTabClick(tab.id)}
                   className={[
                     "relative whitespace-nowrap px-3 py-4 text-sm font-semibold transition sm:px-5 sm:text-base",
                     isActive
