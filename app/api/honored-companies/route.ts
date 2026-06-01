@@ -63,8 +63,8 @@ export async function GET() {
           order,
         };
       })
-      // Sort theo order tăng dần
-      .sort((a: { order: number }, b: { order: number }) => a.order - b.order);
+      // Sort theo order giảm dần (DN mới nhất lên đầu)
+      .sort((a: { order: number }, b: { order: number }) => b.order - a.order);
 
     return NextResponse.json({
       ok: true,
