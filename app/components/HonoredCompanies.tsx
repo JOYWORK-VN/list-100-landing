@@ -130,7 +130,7 @@ export default function HonoredCompanies() {
         {companies.length > 0 ? (
           <>
             <ol className="mx-auto mt-14 max-w-5xl space-y-3">
-              {visible.map((company, i) => (
+              {visible.map((company) => (
                 <li
                   key={company.id}
                   className="flex flex-col gap-3 rounded-xl border border-deepspace-50 bg-white p-4 transition hover:border-joy-200 hover:shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-5"
