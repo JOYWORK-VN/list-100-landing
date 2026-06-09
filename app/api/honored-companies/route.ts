@@ -60,6 +60,8 @@ export async function GET() {
           name: String(fields.Name || ""),
           profileUrl: String(fields.ProfileUrl || fields.profileUrl || ""),
           jobsUrl: String(fields.JobsUrl || fields.jobsUrl || ""),
+          industry: String(fields.Industry || fields.industry || ""),
+          description: String(fields.Description || fields.description || ""),
           order,
         };
       })

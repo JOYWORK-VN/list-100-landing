@@ -11,6 +11,8 @@ interface Company {
   name: string;
   profileUrl: string;
   jobsUrl: string;
+  industry: string;
+  description: string;
   order: number;
 }
 
@@ -135,10 +137,24 @@ export default function HonoredCompanies() {
                   key={company.id}
                   className="flex flex-col gap-3 rounded-xl border border-deepspace-50 bg-white p-4 transition hover:border-joy-200 hover:shadow-sm sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-5"
                 >
-                  <div className="flex min-w-0 items-start gap-3 sm:items-center">
+                  <div className="min-w-0 flex-1">
                     <h3 className="text-base font-semibold leading-snug text-deepspace sm:text-lg">
                       {company.name}
                     </h3>
+                    {(company.industry || company.description) && (
+                      <div className="mt-1 space-y-1">
+                        {company.industry && (
+                          <p className="text-sm font-medium text-joy-600">
+                            {company.industry}
+                          </p>
+                        )}
+                        {company.description && (
+                          <p className="text-sm leading-relaxed text-deepspace-300">
+                            {company.description}
+                          </p>
+                        )}
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-shrink-0 gap-2">
                     {company.profileUrl ? (
