@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { SITE_URL } from "@/lib/site-config";
+import MetaPixel from "./components/MetaPixel";
 import "./globals.css";
 
 const inter = Inter({
@@ -130,6 +131,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
+        <MetaPixel />
         {children}
       </body>
     </html>

@@ -15,6 +15,7 @@ import {
   REFERRAL_SOURCES,
   PERSONAL_EMAIL_DOMAINS,
 } from "@/lib/registration-schema";
+import { trackLead } from "./MetaPixel";
 
 // SECTION 9 — Form đăng ký
 // Client component (RHF cần state). Validate cùng schema Zod với server.
@@ -83,6 +84,8 @@ export default function RegistrationForm() {
           json?.message || "Gửi đăng ký không thành công. Vui lòng thử lại."
         );
       }
+      // Đăng ký thành công → bắn Lead event lên Meta Pixel
+      trackLead();
       setSubmitState({ status: "success" });
       reset();
     } catch (err) {
