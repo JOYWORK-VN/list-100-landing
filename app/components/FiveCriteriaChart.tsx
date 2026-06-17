@@ -278,9 +278,9 @@ export default function FiveCriteriaChart() {
                 80%
               </p>
               <p className="mt-3 text-sm leading-relaxed text-deepspace sm:text-base">
-                Tỉ lệ tối thiểu nhân viên{" "}
-                <strong>trả lời khảo sát hợp lệ</strong>
+                Tỉ lệ tối thiểu nhân viên <strong>trả lời khảo sát hợp lệ</strong>. Có thể thay đổi theo quy mô và tính chất doanh nghiệp, nhưng không dưới <strong>60%</strong>
               </p>
+         
             </div>
 
             {/* Điều kiện 2 — 70/100 */}

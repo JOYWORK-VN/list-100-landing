@@ -18,12 +18,12 @@ const faqs = [
   {
     question: "Khảo sát có thực sự ẩn danh không?",
     answer:
-      "Có. JOYWORK gửi khảo sát trực tiếp đến email cá nhân của từng nhân viên, không qua HR hay CEO. Kết quả tổng hợp ở cấp doanh nghiệp, không truy ngược về cá nhân.",
+      "Câu trả lời trong khảo sát của bạn được JOYWORK quản lý, JOYWORK cam kết bảo mật và không tiết lộ câu trả lời của bạn. Công ty chỉ nhận được điểm tổng hợp về chất lượng môi trường làm việc chứ không nhận được danh tính và kết quả chi tiết của khảo sát. Khảo sát này là hoàn toàn ẩn danh đối với doanh nghiệp.",
   },
   {
     question: "Nếu doanh nghiệp không vào danh sách thì sao?",
     answer:
-      "Doanh nghiệp vẫn nhận được báo cáo insight nội bộ — dữ liệu cụ thể để cải thiện. Doanh nghiệp được mời tham gia chương trình tái xác thực năm 2027.",
+      "Kết quả sẽ được bảo mật tuyệt đối. Doanh Nghiệp nhận được báo cáo insight nội bộ để nâng cấp và tối ưu môi trường làm việc.",
   },
   {
     question:
