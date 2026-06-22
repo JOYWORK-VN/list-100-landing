@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { SITE_URL } from "@/lib/site-config";
 import MetaPixel from "./components/MetaPixel";
+import YandexMetrika from "./components/YandexMetrika";
 import "./globals.css";
 
 const inter = Inter({
@@ -132,6 +133,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
         <MetaPixel />
+        <YandexMetrika />
         {children}
       </body>
     </html>
