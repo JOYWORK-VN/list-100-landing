@@ -323,29 +323,26 @@ export default function SurveyQuestions() {
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-joy-500" />
               <span>
-                Khảo sát này hoàn toàn ẩn danh. JOYWORK không thu thập tên hay
-                bất kỳ thông tin nào có thể nhận dạng người làm khảo sát.
+                Câu trả lời trong khảo sát của bạn được JOYWORK quản lý,
+                JOYWORK cam kết bảo mật và không tiết lộ câu trả lời của nhân
+                sự. Công ty chỉ nhận được điểm tổng hợp về chất lượng môi
+                trường làm việc chứ không nhận được danh tính và kết quả chi
+                tiết của khảo sát. Khảo sát này là hoàn toàn ẩn danh đối với
+                doanh nghiệp.
               </span>
             </li>
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-joy-500" />
               <span>
-                Kết quả khảo sát chỉ được tổng hợp ở dạng số liệu chung của
-                toàn công ty. Câu trả lời cá nhân của bạn KHÔNG được gửi cho
-                CEO, HR, hay bất kỳ ai trong công ty.
+                JOYWORK cam kết đảm bảo tính trung thực trong quá trình tổng
+                hợp kết quả khảo sát.
               </span>
             </li>
             <li className="flex gap-3">
               <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-joy-500" />
               <span>
-                JOYWORK là bên thứ ba độc lập, không liên kết về bất cứ lợi
-                ích nào với công ty bạn đang làm.
-              </span>
-            </li>
-            <li className="flex gap-3">
-              <span className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-joy-500" />
-              <span>
-                Để khảo sát hợp lệ, bạn cần trả lời đủ 25 câu.
+                JOYWORK cam kết không tạo ra rào cản để ngăn nhân sự đánh giá
+                minh bạch về môi trường làm việc của công ty.
               </span>
             </li>
           </ul>
